@@ -1,11 +1,11 @@
 --module Tunel ( Tunel, newT, connectsT, usesT, delayT )
-module Tunel --( Tunel, newT, connectsT, usesT, delayT )
-
+module Tunel ( Tunel)
 
    where
 
 import Link
---data Tunel = Tun [Link] deriving (Eq, Show)
+
+data Tunel = Tun [Link] deriving (Eq, Show)
 
 --newT :: [Link] -> Tunel
 --connectsT :: City -> City -> Tunel -> Bool -- inidca si este tunel conceta estas dos ciudades distintas
