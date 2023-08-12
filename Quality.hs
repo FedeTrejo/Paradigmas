@@ -1,4 +1,4 @@
-module Quality (Quality, newQ, capacityQ, delayQ) where
+module Quality (Quality, newQ, capacityQ, delayQ, midQ) where
 
 data Quality = Qua String Int Float deriving (Eq, Show)
 
@@ -12,19 +12,19 @@ delayQ :: Quality -> Float
 delayQ (Qua _ _ delay) = delay
 
 
-basicQuality :: Quality
-basicQuality = newQ "Basic" 10 0.5
+midQ :: Quality
+midQ = newQ "Medium" 50 0.25
 
-basicCapacity :: Int
-basicCapacity = capacityQ basicQuality
-basicDelay :: Float
-basicDelay = delayQ basicQuality
+midC :: Int
+midC = capacityQ midQ
+midD :: Float
+midD = delayQ midQ
 
 
-premiumQuality :: Quality
-premiumQuality = newQ "Premium" 100 0.1
+vipQ :: Quality
+vipQ = newQ "Vip" 100 0.1
 
-areEqual :: Bool
-areEqual = basicQuality == premiumQuality
+same :: Bool
+same = midQ == vipQ
 
 

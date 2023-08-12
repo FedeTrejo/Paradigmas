@@ -1,26 +1,30 @@
---module City ( City, newC, nameC, distanceC )
-module City ( City)--, newC, nameC, distanceC )
-
-   where
+module City ( City, newC, nameC, distanceC, bsAs, stgo ) where --PREGUNTAR AL PROFE QUE CAMBIAMOS ESTA LINEA, PARA NO REPETIR CODIGO
 
 import Point
+
+
 data City = Cit String Point deriving (Eq, Show)
 
+
 newC :: String -> Point -> City
-newC name point = Cit name point
+newC = Cit
 
 nameC :: City -> String
-nameC (Cit name point) = name
+nameC (Cit name _) = name
 
 distanceC :: City -> City -> Float
-distanceC (Cit name1 point1) (Cit name2 point2) = difP point1 point2
+distanceC (Cit _ p1) (Cit _ p2) = difP p1 p2
 
---TESTING
 
-punto1 = newP 1 2
-punto2 = newP 3 4
+point1 :: Point
+point1 = newP 1 2
+point2 :: Point
+point2 = newP 3 4
 
-city1 = newC "Buenos Aires" punto1
-city2 = newC "Santiago" punto2
+bsAs :: City
+bsAs = newC "Buenos Aires" point1
+stgo :: City
+stgo = newC "Santiago" point2
 
-distance_between_Santiago_and_BuenosAires = distanceC city1 city2
+distanceBetweenCities :: Float
+distanceBetweenCities = distanceC bsAs stgo
