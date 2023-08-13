@@ -10,15 +10,13 @@ data Tunel = Tun [Link] deriving (Eq, Show)
 newT :: [Link] -> Tunel
 newT = Tun
 
---connectsT :: City -> City -> Tunel -> Bool -- inidca si este tunel conceta estas dos ciudades distintas
-connectsT :: City -> City -> [Link] -> Bool
-connectsT _ _ [] =  False
-connectsT c1 c2 (x:xs) = (connectsL c1 x || connectsL c2 x) || connectsT c1 c2 xs
+connectsT :: City -> City -> Tunel -> Bool -- inidca si este tunel conceta estas dos ciudades distintas
+connectsT _ _ (Tun []) =  False
+connectsT c1 c2 (Tun (x:xs)) = (connectsL c1 x || connectsL c2 x) || connectsT c1 c2 (Tun xs)
 
---usesT :: Link -> Tunel -> Bool  -- indica si este tunel atraviesa ese link
-usesT :: Eq t => t -> [t] -> Bool
-usesT _ [] = False
-usesT l1 (x:xs) = (x == l1) || usesT l1 xs
+usesT :: Link -> Tunel -> Bool  -- indica si este tunel atraviesa ese link
+usesT _ (Tun []) = False
+usesT l1 (Tun (x:xs)) = (x == l1) || usesT l1 (Tun xs)
 
 delayT :: Tunel -> Float -- la demora que sufre una conexion en este tunel
 delayT (Tun links) = sum [delayL link | link <- links]
@@ -36,13 +34,11 @@ l2 = newL tu sa vipQ
 t1 :: Tunel
 t1 = newT [linkBASP, l2]
 
---conTBaSt :: Bool
---conTBaSt = connectsT bsAs stgo t1
+conTBaSt :: Bool
+conTBaSt = connectsT bsAs stgo t1
 
---usesl2 :: Bool
---usesl2 = usesT l2 t1
+usesl2 :: Bool
+usesl2 = usesT l2 t1
 
 totDelay :: Float
 totDelay = delayT t1
-
-
