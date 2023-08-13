@@ -38,11 +38,11 @@ connectedR (Reg _ links _) c1 c2 =
 
 regBA :: Region
 regBA = foundR newR bsAs
---PREGUNTAR SI TODAS LAS FUNCIONES TENDRIAN QUE TENER SHOW
+--PREGUNTAR SI TODAS LAS FUNCIONES  TENDRIAN QUE TENER SHOW
 linkBaSt :: Region
 linkBaSt = linkR regBA bsAs stgo midQ
 
-conBaSt :: Bool
-conBaSt = connectedR linkBaSt bsAs stgo
+conRBaSt :: Bool
+conRBaSt = connectedR linkBaSt bsAs stgo
 --PREGUNTAR SI HACEMOS MAS VARIABLES PARA HACER REGIONES MAS COMPLEJAS
 

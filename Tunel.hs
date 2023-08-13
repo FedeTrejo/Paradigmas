@@ -1,44 +1,48 @@
---module Tunel ( Tunel, newT, connectsT, usesT, delayT )
-module Tunel --( Tunel, newT, connectsT, usesT, delayT )
-
-
-   where
+module Tunel ( Tunel, newT, connectsT, usesT, delayT ) where
 
 import Link
+import City
+import Point
+import Quality
+
 data Tunel = Tun [Link] deriving (Eq, Show)
 
 newT :: [Link] -> Tunel
 newT = Tun
 
-connectsT :: City -> City -> Tunel -> Bool -- inidca si este tunel conceta estas dos ciudades distintas
+--connectsT :: City -> City -> Tunel -> Bool -- inidca si este tunel conceta estas dos ciudades distintas
+connectsT :: City -> City -> [Link] -> Bool
 connectsT _ _ [] =  False
-connectsT c1 c2 (l:rest) = if connectsL c1 link || connectsL c2 link then True
-                           else connectsT c1 c2 rest
+connectsT c1 c2 (x:xs) = (connectsL c1 x || connectsL c2 x) || connectsT c1 c2 xs
 
-usesT :: Link -> Tunel -> Bool  -- indica si este tunel atraviesa ese link
+--usesT :: Link -> Tunel -> Bool  -- indica si este tunel atraviesa ese link
+usesT :: Eq t => t -> [t] -> Bool
 usesT _ [] = False
-usesT l1 (l:rest) = if l == l1 then True
-                     else usesT l1 rest
+usesT l1 (x:xs) = (x == l1) || usesT l1 xs
 
 delayT :: Tunel -> Float -- la demora que sufre una conexion en este tunel
 delayT (Tun links) = sum [delayL link | link <- links]
 
---EJEMPLO DE TESTING
 
-tucuman :: City
-tucuman = newC "Tucuman" (newP 5 6)
+tu :: City
+tu = newC "Tucuman" (newP 5 6)
 
-salta :: City
-salta = newC "Salta" (newP 7 8)
+sa :: City
+sa = newC "Salta" (newP 7 8)
 
-link2 = newL tucuman salta vipQ
+l2 :: Link
+l2 = newL tu sa vipQ
 
-tunnel = newT [linkBASP, link2]
+t1 :: Tunel
+t1 = newT [linkBASP, l2]
 
-connectedBSAS_STGO = connectsT bsAs stgo tunnel
+--conTBaSt :: Bool
+--conTBaSt = connectsT bsAs stgo t1
 
-usesLink2 = usesT link2 tunnel
+--usesl2 :: Bool
+--usesl2 = usesT l2 t1
 
-totalDelay = delayT tunnel
+totDelay :: Float
+totDelay = delayT t1
 
 
