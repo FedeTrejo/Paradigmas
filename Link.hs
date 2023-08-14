@@ -1,5 +1,5 @@
-module Link (Link, newL, linksL, connectsL, capacityL, delayL, linkBASP) where
-
+module Link ( Link, newL, linksL, connectsL, capacityL, delayL )
+    where
 import Quality 
 import City --PREGUNTAR SI PARA AHORRA RECURSOS IMPORTAMOS SOLAMENTE LAS FUNCIONES QUE USAMOS O IMPORTAMOS TODO PARA TENER CODIGO MAS ROBUSTO
 

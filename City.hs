@@ -1,5 +1,5 @@
-module City ( City, newC, nameC, distanceC, bsAs, stgo ) where --PREGUNTAR AL PROFE QUE CAMBIAMOS ESTA LINEA, PARA NO REPETIR CODIGO
-
+module City ( City, newC, nameC, distanceC )
+    where
 import Point
 
 
