@@ -21,8 +21,12 @@ foundR (Reg cities links tunnels) city
   | otherwise = Reg (city:cities) links tunnels
 
 linkR :: Region -> City -> City -> Quality -> Region
-linkR (Reg cities links tunnels) c1 c2 q =
-  Reg cities (newL c1 c2 q:links) tunnels
+linkR (Reg cities links tunnels) c1 c2 q
+  | c1 `elem` cities && c2 `elem` cities = 
+      Reg cities (newL c1 c2 q : links) tunnels
+
+  | otherwise = 
+      error "Cities don't exist in the region"
 
 --tunelR :: Region -> [ City ] -> Region
 
