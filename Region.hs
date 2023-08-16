@@ -33,7 +33,7 @@ linkR (Reg cities links tunnels) c1 c2 q
 connectedR :: Region -> City -> City -> Bool
 connectedR (Reg _ links _) c1 c2 =
   any (linksL c1 c2) links -- @fede La función any en Haskell permite verificar si algún elemento de una lista cumple cierta condición.
-
+--LUCAS FIJATE QUE ES PARA TUNEL NO PARA LINKS
 
 linkedR :: Region -> City -> City -> Bool -- indica si estas dos ciudades estan enlazadas
 linkedR (Reg cities [] tunnels) c1 c2 = False

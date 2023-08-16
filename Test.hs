@@ -36,7 +36,7 @@ reg2 :: Region
 reg2 = linkR reg1 bsAs stgo medium
 
 -- bsAsInReg :: Bool AVERIGUAR PORQUE SALTA LA EXCEPCION DE LINKR
--- bsAsInReg = connectedR reg2 bsAs stgo a 
+bsAsInReg = connectedR reg2 bsAs stgo 
 -- capInReg :: Int AVERIGUAR PORQUE SALTA LA EXCEPCION DE LINKR
 -- capInReg = availableCapacityForR reg2 bsAs stgo
 
