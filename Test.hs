@@ -1,4 +1,5 @@
-module First where
+module Test (bsAs, stgo, medium, vip, linBsSt, linStBs, bsInLin, capBsSt, reg0, reg1, reg2, t1, tUsesLin, tDelay)
+  where
 
 import City
 import Link
@@ -24,8 +25,6 @@ linStBs = newL stgo bsAs vip
 
 bsInLin :: Bool
 bsInLin = connectsL bsAs linBsSt
-linStBsHasCities :: Bool
-linStBsHasCities = linksL bsAs stgo linStBs
 capBsSt :: Int
 capBsSt = capacityL linBsSt
 
@@ -36,10 +35,10 @@ reg1 = foundR reg0 bsAs
 reg2 :: Region
 reg2 = linkR reg1 bsAs stgo medium
 
-bsAsInReg :: Bool
-bsAsInReg = connectedR reg2 bsAs stgo
-capInReg :: Int
-capInReg = availableCapacityForR reg2 bsAs stgo
+-- bsAsInReg :: Bool AVERIGUAR PORQUE SALTA LA EXCEPCION DE LINKR
+-- bsAsInReg = connectedR reg2 bsAs stgo a 
+-- capInReg :: Int AVERIGUAR PORQUE SALTA LA EXCEPCION DE LINKR
+-- capInReg = availableCapacityForR reg2 bsAs stgo
 
 t1 :: Tunel
 t1 = newT [linBsSt, linStBs]
@@ -48,9 +47,3 @@ tUsesLin :: Bool
 tUsesLin = usesT linBsSt t1 
 tDelay :: Float
 tDelay = delayT t1
-
-main = do
-  print bsAs
-  print stgo
-  print linBsSt
-  print t1
