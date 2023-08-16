@@ -1,4 +1,4 @@
-module Test (bsAs, stgo, medium, vip, linBsSt, linStBs, bsInLin, capBsSt, reg0, reg1, reg2, t1, tUsesLin, tDelay)
+module Test (bsAs, stgo, medium, vip, linBsSt, linStBs, bsInLin, capBsSt, reg0, reg1, reg2, t1, tUsesLin, tDelay, bsAsInReg, capInReg)
   where
 
 import City
@@ -33,12 +33,12 @@ reg0 = newR
 reg1 :: Region
 reg1 = foundR reg0 bsAs
 reg2 :: Region
-reg2 = linkR reg1 bsAs stgo medium
+reg2 = linkR (foundR reg1 stgo) bsAs stgo medium
 
--- bsAsInReg :: Bool AVERIGUAR PORQUE SALTA LA EXCEPCION DE LINKR
--- bsAsInReg = connectedR reg2 bsAs stgo a 
--- capInReg :: Int AVERIGUAR PORQUE SALTA LA EXCEPCION DE LINKR
--- capInReg = availableCapacityForR reg2 bsAs stgo
+bsAsInReg :: Bool
+bsAsInReg = connectedR reg2 bsAs stgo 
+capInReg :: Int
+capInReg = availableCapacityForR reg2 bsAs stgo
 
 t1 :: Tunel
 t1 = newT [linBsSt, linStBs]

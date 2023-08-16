@@ -32,7 +32,7 @@ linkR (Reg cities links tunnels) c1 c2 q
 
 connectedR :: Region -> City -> City -> Bool
 connectedR (Reg _ links _) c1 c2 =
-  any (linksL c1 c2) links -- @lucas FALLA
+  any (linksL c1 c2) links
 
 
 linkedR :: Region -> City -> City -> Bool -- indica si estas dos ciudades estan enlazadas

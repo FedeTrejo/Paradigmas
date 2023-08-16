@@ -21,9 +21,9 @@ ourShow = do
   print ("bsAs is in link linBsSt: " ++ show bsInLin)
   print capBsSt
 
-  --putStrLn "Region properties:" FALTA ARREGLAR EN TEST
-  --print ("bsAs is connected to stgo in reg2: " ++ show bsAsInReg)
-  --print capInReg
+  putStrLn "Region properties:"
+  print ("bsAs is connected to stgo in reg2: " ++ show bsAsInReg)
+  print capInReg
 
   putStrLn "Tunnels:"
   print t1
