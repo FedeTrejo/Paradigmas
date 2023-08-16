@@ -16,7 +16,7 @@ newR = Reg [] [] []
 
 foundR :: Region -> City -> Region
 foundR (Reg cities links tunnels) city
-  | city `elem` cities = error "City already exists" 
+  | city `elem` cities = error "City already exists" --COMO CARAJO HACEMOS UNA VARIABLE QUE MUESTRE ESTE CODIGO DE ERROR
   | otherwise = Reg (city:cities) links tunnels
 
 linkR :: Region -> City -> City -> Quality -> Region
@@ -34,7 +34,6 @@ connectedR :: Region -> City -> City -> Bool
 connectedR (Reg _ links _) c1 c2 =
   any (linksL c1 c2) links
 
-
 linkedR :: Region -> City -> City -> Bool -- indica si estas dos ciudades estan enlazadas
 linkedR (Reg cities [] tunnels) c1 c2 = False
 linkedR (Reg cities (l:links) tunnels) c1 c2 =  if (linksL c1 c2 l) then True
@@ -44,7 +43,7 @@ delayR :: Region -> City -> City -> Float -- dadas dos ciudades conectadas, indi
 delayR (Reg cities [] tunnels) _ _ = error "No links between those cities in the region"
 delayR (Reg cities (l:links) tunnels) c1 c2 =
   if linksL c1 c2 l
-    then delayL l -- @fede FALTA ESPERAR SABER QUE HAY QUE HACER 
+    then delayL l
     else delayR (Reg cities links tunnels) c1 c2
 
 availableCapacityForR :: Region -> City -> City -> Int -- indica la capacidad disponible entre dos ciudades
