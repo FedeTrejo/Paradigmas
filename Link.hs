@@ -19,14 +19,3 @@ capacityL (Lin _ _ quality) = capacityQ quality
 
 delayL :: Link -> Float
 delayL (Lin _ _ quality) = delayQ quality
-
-
-linkBASP = newL bsAs stgo midQ
-
-baInLink = connectsL bsAs linkBASP
-
-citiesLinked = linksL bsAs stgo linkBASP
-
-linkCapacity = capacityL linkBASP
-
-linkDelay = delayL linkBASP

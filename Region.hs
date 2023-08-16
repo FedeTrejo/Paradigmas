@@ -1,5 +1,4 @@
---module Region ( Region, newR, foundR, linkR, tunelR, pathR, linksForR, connectedR, linkedR, delayR, availableCapacityForR, usedCapacityForR )
-module Region ( Region, newR, foundR, linkR, connectedR)
+module Region ( Region, newR, foundR, linkR, connectedR, linkedR, delayR, availableCapacityForR)
 
    where
 
@@ -54,25 +53,3 @@ availableCapacityForR (Reg cities (l:links) tunnels) c1 c2 =
   if linksL c1 c2 l
     then capacityL l
     else availableCapacityForR (Reg cities links tunnels) c1 c2
-
-
-regBA :: Region
-regBA = foundR newR bsAs
-
-linkBaSt :: Region
-linkBaSt = linkR regBA bsAs stgo midQ
-
-conRBaSt :: Bool
-conRBaSt = connectedR linkBaSt bsAs stgo
-
-baStlinked :: Bool
-baStlinked = linkedR linkBaSt bsAs stgo
-
-delayBaSt :: Float
-delayBaSt = delayR linkBaSt bsAs stgo
-
-capacityBaSt :: Int
-capacityBaSt = availableCapacityForR linkBaSt bsAs stgo
-
-
-

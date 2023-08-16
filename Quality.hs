@@ -12,19 +12,3 @@ delayQ :: Quality -> Float
 delayQ (Qua _ _ delay) = delay
 
 
-midQ :: Quality
-midQ = newQ "Medium" 50 0.25
-
-midC :: Int
-midC = capacityQ midQ
-midD :: Float
-midD = delayQ midQ
-
-
-vipQ :: Quality
-vipQ = newQ "Vip" 100 0.1
-
-same :: Bool
-same = midQ == vipQ
-
-

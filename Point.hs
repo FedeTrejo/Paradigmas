@@ -7,10 +7,3 @@ newP = Poi
 
 difP :: Point -> Point -> Float
 difP (Poi x1 y1) (Poi x2 y2) = sqrt (fromIntegral ((x1 - x2)^2 + (y1 - y2)^2))
-
-
-start :: Point
-start = newP 0 0
-
-distP :: Float
-distP = difP start (newP 3 4)
