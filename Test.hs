@@ -1,17 +1,21 @@
-module Test (bsAs, stgo, medium, vip, linBsSt, linStBs, bsInLin, capBsSt, reg0, reg1, reg2, t1, tUsesLin, tDelay, bsAsInReg, capInReg)
+module Test (bsAs, stgo, medium, vip, linBsSt, linStBs, bsInLin, capBsSt, t1, tUsesLin, tDelay)
   where
 
 import City
 import Link
 import Point 
 import Quality
-import Region
+import Region 
 import Tunel
 
 bsAs :: City
 bsAs = newC "Buenos Aires" (newP 1 2)
+rosario :: City
+rosario = newC "Rosario" (newP 3 4)
+cordoba :: City
+cordoba = newC "Córdoba" (newP 5 6)
 stgo :: City
-stgo = newC "Santiago" (newP 3 4)
+stgo = newC "Santiago" (newP 7 8)
 
 medium :: Quality
 medium = newQ "Medium" 10 0.5
@@ -28,18 +32,6 @@ bsInLin = connectsL bsAs linBsSt
 capBsSt :: Int
 capBsSt = capacityL linBsSt
 
-reg0 :: Region
-reg0 = newR
-reg1 :: Region
-reg1 = foundR reg0 bsAs
-reg2 :: Region
-reg2 = linkR (foundR reg1 stgo) bsAs stgo medium
-
-bsAsInReg :: Bool
-bsAsInReg = connectedR reg2 bsAs stgo 
-capInReg :: Int
-capInReg = availableCapacityForR reg2 bsAs stgo
-
 t1 :: Tunel
 t1 = newT [linBsSt, linStBs]
 
@@ -47,3 +39,48 @@ tUsesLin :: Bool
 tUsesLin = usesT linBsSt t1 
 tDelay :: Float
 tDelay = delayT t1
+
+--EJEMPLOS DE REGION
+linBsRo :: Link
+linBsRo = newL bsAs rosario vip
+linRoCo :: Link
+linRoCo = newL rosario cordoba vip 
+linkCoSg :: Link
+linkCoSg = newL cordoba stgo medium
+
+argentina :: Region
+argentina = newR
+
+argentina1 :: Region
+argentina1 = foundR argentina bsAs
+argentina2 :: Region
+argentina2 = foundR argentina1 rosario
+argentina3 :: Region
+argentina3 = foundR argentina2 cordoba
+argentina4 :: Region
+argentina4 = foundR argentina3 stgo
+
+argentina5 :: Region
+argentina5 = linkR argentina4 bsAs rosario vip
+argentina6 :: Region
+argentina6 = linkR argentina5 rosario cordoba vip
+argentina7 :: Region
+argentina7 = linkR argentina6 stgo cordoba medium
+
+linkedRoCo :: Bool
+linkedRoCo = linkedR argentina7 rosario cordoba
+
+capacityCoSt :: Int
+capacityCoSt = availableCapacityForR argentina7 stgo cordoba
+
+argentinaConnected :: Region
+argentinaConnected = tunelR argentina7 [bsAs, rosario, cordoba, stgo]
+
+bsAsInReg :: Bool 
+bsAsInReg = connectedR argentinaConnected bsAs stgo 
+--NO FUNCIONA CON TODO EL TUNEL @Lucas
+
+capInReg :: Int 
+capInReg = availableCapacityForR argentinaConnected cordoba stgo
+
+--FALTA DELAYR

@@ -1,4 +1,4 @@
-module Region ( Region, newR, foundR, linkR, connectedR, linkedR, delayR, availableCapacityForR)
+module Region ( Region, newR, foundR, linkR, connectedR, linkedR, delayR, availableCapacityForR, tunelR)
 
    where
 
@@ -8,15 +8,15 @@ import Tunel
 import Quality
 
 
-data Region = Reg [City] [Link] [Tunel]
+data Region = Reg [City] [Link] [Tunel] deriving Show
 
 
-newR :: Region
+newR :: Region 
 newR = Reg [] [] []
 
 foundR :: Region -> City -> Region
 foundR (Reg cities links tunnels) city
-  | city `elem` cities = error "City already exists" --COMO CARAJO HACEMOS UNA VARIABLE QUE MUESTRE ESTE CODIGO DE ERROR
+  | city `elem` cities = error "City already exists" 
   | otherwise = Reg (city:cities) links tunnels
 
 linkR :: Region -> City -> City -> Quality -> Region
@@ -27,8 +27,14 @@ linkR (Reg cities links tunnels) c1 c2 q
   | otherwise = 
       error "Cities don't exist in the region"
 
---tunelR :: Region -> [ City ] -> Region
---ESPERANDO POR LA CORRECCION DE LINKR PARA IMPLEMENTARLO CORRECTAMENTE
+tunelR :: Region -> [ City ] -> Region
+tunelR region@(Reg cities links tunnels) orderedCities
+  | all (`elem` cities) orderedCities && allCitiesLinked = Reg cities links (newTunnel:tunnels)
+  | otherwise = error "Cities are not ordered or cities not linked"
+  where
+    allCitiesLinked = all (\(c1, c2) -> any (\l -> linksL c1 c2 l) links) (zip orderedCities (tail orderedCities))
+    newLinks = [l | (c1, c2) <- zip orderedCities (tail orderedCities), l <- links, linksL c1 c2 l]
+    newTunnel = newT newLinks
 
 connectedR :: Region -> City -> City -> Bool
 connectedR (Reg _ links _) c1 c2 =
