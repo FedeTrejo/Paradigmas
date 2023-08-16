@@ -1,4 +1,4 @@
-module Show where
+module Output where
 
 import Test
 
