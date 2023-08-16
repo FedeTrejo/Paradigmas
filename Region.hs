@@ -16,10 +16,10 @@ newR = Reg [] [] []
 
 foundR :: Region -> City -> Region
 foundR (Reg cities links tunnels) city
-  | city `elem` cities = error "City already exists" --COMO CARAJO HACEMOS UNA VARIABLE QUE MUESTRE ESTE CODIGO DE ERROR
+  | city `elem` cities = error "City already exists" 
   | otherwise = Reg (city:cities) links tunnels
 
-linkR :: Region -> City -> City -> Quality -> Region
+linkR :: Region -> City -> City -> Quality -> Region --HACER VARIABLE QUE FALLE
 linkR (Reg cities links tunnels) c1 c2 q
   | c1 `elem` cities && c2 `elem` cities = 
       Reg cities (newL c1 c2 q : links) tunnels
@@ -32,7 +32,7 @@ linkR (Reg cities links tunnels) c1 c2 q
 
 connectedR :: Region -> City -> City -> Bool
 connectedR (Reg _ links _) c1 c2 =
-  any (linksL c1 c2) links -- @fede La función any en Haskell permite verificar si algún elemento de una lista cumple cierta condición.
+  any (linksL c1 c2) links -- @lucas FALLA
 
 
 linkedR :: Region -> City -> City -> Bool -- indica si estas dos ciudades estan enlazadas
@@ -44,7 +44,7 @@ delayR :: Region -> City -> City -> Float -- dadas dos ciudades conectadas, indi
 delayR (Reg cities [] tunnels) _ _ = error "No links between those cities in the region"
 delayR (Reg cities (l:links) tunnels) c1 c2 =
   if linksL c1 c2 l
-    then delayL l
+    then delayL l -- @fede FALTA ESPERAR SABER QUE HAY QUE HACER 
     else delayR (Reg cities links tunnels) c1 c2
 
 availableCapacityForR :: Region -> City -> City -> Int -- indica la capacidad disponible entre dos ciudades
