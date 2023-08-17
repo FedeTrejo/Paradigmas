@@ -25,8 +25,8 @@ link23 :: Link
 link23 = newL stgo city3 vip
 tunnel12 = newT [link12]
 tunnel12 :: Tunel
---city3NotConnectedToTunnel12 :: Bool
---city3NotConnectedToTunnel12 = connectsT city3 bsAs tunnel12
+city3NotConnectedToTunnel12 :: Bool
+city3NotConnectedToTunnel12 = connectsT city3 bsAs tunnel12
 tunnel12NotUseLink23 :: Bool
 tunnel12NotUseLink23 = usesT link23 tunnel12
 
@@ -49,7 +49,7 @@ region :: Region
 region = foundR newR bsAs
 duplicateCity :: Region 
 duplicateCity = foundR region bsAs
---FALTA UN SHOW EN REGION?
+
 region2 :: Region
 region2 = newR
 linkCitiesNotInRegion :: Region

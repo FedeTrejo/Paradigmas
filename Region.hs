@@ -8,7 +8,7 @@ import Tunel
 import Quality
 
 
-data Region = Reg [City] [Link] [Tunel]
+data Region = Reg [City] [Link] [Tunel] deriving (Show)
 
 
 newR :: Region
