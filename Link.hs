@@ -12,7 +12,7 @@ connectsL :: City -> Link -> Bool
 connectsL city (Lin city1 city2 _) = city == city1 || city == city2
 
 linksL :: City -> City -> Link -> Bool
-linksL city1 city2 (Lin c1 c2 _) = c1 == city1 && c2 == city2
+linksL city1 city2 (Lin c1 c2 _) = (c1 == city1 && c2 == city2) || (c1 == city2 && c2 == city1)
 
 capacityL :: Link -> Int
 capacityL (Lin _ _ quality) = capacityQ quality
