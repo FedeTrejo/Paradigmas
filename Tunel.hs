@@ -11,9 +11,7 @@ newT :: [Link] -> Tunel
 newT = Tun
 
 connectsT :: City -> City -> Tunel -> Bool
-connectsT c1 c2 (Tun links) =
-  any (linksL c1 c2) links &&
-  any (linksL c2 c1) links
+connectsT city1 city2 (Tun links) = connectsL city1 (head links) && connectsL city2 (last links)
 
 usesT :: Link -> Tunel -> Bool
 usesT _ (Tun []) = False
