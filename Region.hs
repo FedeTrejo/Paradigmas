@@ -38,7 +38,7 @@ tunelR region@(Reg cities links tunnels) orderedCities
 
 connectedR :: Region -> City -> City -> Bool
 connectedR (Reg _ links _) c1 c2 =
-  any (linksL c1 c2) links
+  foldr (\link acc -> linksL c1 c2 link || acc) False links
 
 linkedR :: Region -> City -> City -> Bool -- indica si estas dos ciudades estan enlazadas
 linkedR (Reg cities [] tunnels) c1 c2 = False

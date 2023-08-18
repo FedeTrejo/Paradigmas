@@ -8,8 +8,7 @@ import Region
 import Tunel
 import Test
 
---import ShowR
-
+--CHECKEAR QUE NO SE REPITA CODIGO CON TEST
 linStBsHasNoCit :: Bool
 linStBsHasNoCit = linksL stgo city3 linStBs
 
@@ -36,15 +35,11 @@ stgoNotConnectedTobsAs = connectedR region bsAs stgo
 stgoNotLinkedTobsAs :: Bool
 stgoNotLinkedTobsAs = linkedR region bsAs stgo
 
-
 noLinkDelay :: Float
 noLinkDelay = delayR region2 bsAs stgo
 noLinkCapacity :: Int
 noLinkCapacity = availableCapacityForR region2 bsAs stgo
 
-
---linkR :: Region -> City -> City -> Quality -> Region
---foundR :: Region -> City -> Region
 region :: Region
 region = foundR newR bsAs
 duplicateCity :: Region 

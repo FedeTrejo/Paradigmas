@@ -1,4 +1,4 @@
-module Test (bsAs, stgo, medium, vip, linBsSt, linStBs, bsInLin, capBsSt, t1, tUsesLin, tDelay)
+module Test (bsAs, stgo, medium, vip, linBsSt, linStBs, bsInLin, capBsSt, t1, tUsesLin, tDelay, capInReg, bsAsInReg)
   where
 
 import City
@@ -76,9 +76,8 @@ capacityCoSt = availableCapacityForR argentina7 stgo cordoba
 argentinaConnected :: Region
 argentinaConnected = tunelR argentina7 [bsAs, rosario, cordoba, stgo]
 
-bsAsInReg :: Bool 
-bsAsInReg = connectedR argentinaConnected bsAs stgo 
---NO FUNCIONA CON TODO EL TUNEL @Lucas
+--bsAsInReg :: Bool 
+bsAsInReg = connectedR argentinaConnected bsAs cordoba
 
 capInReg :: Int 
 capInReg = availableCapacityForR argentinaConnected cordoba stgo

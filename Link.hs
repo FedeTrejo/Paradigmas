@@ -1,7 +1,7 @@
 module Link ( Link, newL, linksL, connectsL, capacityL, delayL )
     where
 import Quality 
-import City --PREGUNTAR SI PARA AHORRA RECURSOS IMPORTAMOS SOLAMENTE LAS FUNCIONES QUE USAMOS O IMPORTAMOS TODO PARA TENER CODIGO MAS ROBUSTO
+import City
 
 data Link = Lin City City Quality deriving (Eq, Show)
 
