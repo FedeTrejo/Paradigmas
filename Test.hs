@@ -1,4 +1,4 @@
-module Test (bsAs, stgo, medium, vip, linBsSt, linStBs, bsInLin, capBsSt, t1, tUsesLin, tDelay, capInReg, bsAsInReg)
+module Test (bsAs, stgo, cordoba, medium, vip, linBsSt, linStBs, linkCoSg, bsInLin, capBsSt, t1, tUsesLin, tDelay, argentina, argentinaConnected )
   where
 
 import City
@@ -13,7 +13,7 @@ bsAs = newC "Buenos Aires" (newP 1 2)
 rosario :: City
 rosario = newC "Rosario" (newP 3 4)
 cordoba :: City
-cordoba = newC "Córdoba" (newP 5 6)
+cordoba = newC "Cordoba" (newP 5 6)
 stgo :: City
 stgo = newC "Santiago" (newP 7 8)
 
@@ -40,7 +40,6 @@ tUsesLin = usesT linBsSt t1
 tDelay :: Float
 tDelay = delayT t1
 
---EJEMPLOS DE REGION
 linBsRo :: Link
 linBsRo = newL bsAs rosario vip
 linRoCo :: Link
@@ -76,8 +75,8 @@ capacityCoSt = availableCapacityForR argentina7 stgo cordoba
 argentinaConnected :: Region
 argentinaConnected = tunelR argentina7 [bsAs, rosario, cordoba, stgo]
 
---bsAsInReg :: Bool 
-bsAsInReg = connectedR argentinaConnected bsAs cordoba
+testConnected :: Bool
+testConnected = connectedR argentinaConnected bsAs stgo
 
 capInReg :: Int 
 capInReg = availableCapacityForR argentinaConnected cordoba stgo

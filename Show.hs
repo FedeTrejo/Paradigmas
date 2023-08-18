@@ -1,40 +1,31 @@
 module Show where
 
 import Test
+import Region
 
-ourShow :: IO ()
-ourShow = do
+showTelco :: IO ()  
+showTelco = do
 
   putStrLn "Cities:"
   print bsAs
   print stgo
-
-  putStrLn "Qualities:" 
-  print medium
-  print vip
+  print cordoba
 
   putStrLn "Links:"
   print linBsSt
   print linStBs
+  print linkCoSg
 
-  putStrLn "Link properties:"
-  print ("bsAs is in link linBsSt: " ++ show bsInLin)
-  print capBsSt
-
-  putStrLn "Region properties:"
-  print ("bsAs is connected to stgo in reg2: " ++ show bsAsInReg)
-  print capInReg
-
-  putStrLn "Tunnels:"
+  putStrLn "Tunnel:" 
   print t1
 
-  putStrLn "Tunnel properties:"
-  print ("Tunnel t1 uses link linBsSt: " ++ show tUsesLin)  
-  print tDelay
+  putStrLn "Region:"
+  print argentinaConnected
+  
+  putStrLn "Connected cities:"
+  print (connectedR argentinaConnected bsAs stgo)
+
+  putStrLn "Capacity:"
+  print (availableCapacityForR argentinaConnected cordoba stgo)
 
   putStrLn "Done!"
-
-
-
-
-

@@ -11,20 +11,20 @@ import Quality
 data Region = Reg [City] [Link] [Tunel] deriving Show
 
 
-newR :: Region 
+newR :: Region
 newR = Reg [] [] []
 
 foundR :: Region -> City -> Region
 foundR (Reg cities links tunnels) city
-  | city `elem` cities = error "City already exists" 
+  | city `elem` cities = error "City already exists"
   | otherwise = Reg (city:cities) links tunnels
 
 linkR :: Region -> City -> City -> Quality -> Region
 linkR (Reg cities links tunnels) c1 c2 q
-  | c1 `elem` cities && c2 `elem` cities = 
+  | c1 `elem` cities && c2 `elem` cities =
       Reg cities (newL c1 c2 q : links) tunnels
 
-  | otherwise = 
+  | otherwise =
       error "Cities don't exist in the region"
 
 tunelR :: Region -> [ City ] -> Region
@@ -37,8 +37,8 @@ tunelR region@(Reg cities links tunnels) orderedCities
     newTunnel = newT newLinks
 
 connectedR :: Region -> City -> City -> Bool
-connectedR (Reg _ links _) c1 c2 =
-  foldr (\link acc -> linksL c1 c2 link || acc) False links
+connectedR (Reg _ _ tunnels) c1 c2 =
+  any (connectsT c1 c2) tunnels
 
 linkedR :: Region -> City -> City -> Bool -- indica si estas dos ciudades estan enlazadas
 linkedR (Reg cities [] tunnels) c1 c2 = False
@@ -54,7 +54,7 @@ delayR (Reg cities (l:links) tunnels) c1 c2 =
 
 availableCapacityForR :: Region -> City -> City -> Int -- indica la capacidad disponible entre dos ciudades
 availableCapacityForR (Reg cities [] _) _ _ = error "No links between those cities in the region"
-availableCapacityForR (Reg cities (l:links) tunnels) c1 c2 = 
+availableCapacityForR (Reg cities (l:links) tunnels) c1 c2 =
   if linksL c1 c2 l
     then capacityL l
     else availableCapacityForR (Reg cities links tunnels) c1 c2
