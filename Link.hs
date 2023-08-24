@@ -1,4 +1,4 @@
-module Link ( Link, newL, linksL, connectsL, capacityL, delayL )
+module Link ( Link, newL, linksL, connectsL, capacityL, delayL, getCity1, getCity2 )
     where
 import Quality 
 import City
@@ -19,3 +19,10 @@ capacityL (Lin _ _ quality) = capacityQ quality
 
 delayL :: Link -> Float
 delayL (Lin _ _ quality) = delayQ quality
+
+--Funciones auxiliares para acceder a las ciudades de un link "getters" sin constructores
+getCity1 :: Link -> City
+getCity1 (Lin city1 _ _) = city1
+
+getCity2 :: Link -> City
+getCity2 (Lin _ city2 _) = city2

@@ -77,6 +77,7 @@ argentinaConnected = tunelR argentina7 [bsAs, rosario, cordoba, stgo]
 
 testConnected :: Bool
 testConnected = connectedR argentinaConnected bsAs stgo
+-- @lucas da False 
 
 capInReg :: Int 
 capInReg = availableCapacityForR argentinaConnected cordoba stgo
