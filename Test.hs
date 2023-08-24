@@ -72,14 +72,16 @@ linkedRoCo = linkedR argentina7 rosario cordoba
 capacityCoSt :: Int
 capacityCoSt = availableCapacityForR argentina7 stgo cordoba
 
-argentinaConnected :: Region
-argentinaConnected = tunelR argentina7 [bsAs, rosario, cordoba, stgo]
-
+argentinaConnected :: Region  
+argentinaConnected = 
+  let region = linkR argentina7 bsAs stgo medium
+  in tunelR region [bsAs, rosario, cordoba, stgo]
+  
 testConnected :: Bool
 testConnected = connectedR argentinaConnected bsAs stgo
--- @lucas da False 
 
 capInReg :: Int 
 capInReg = availableCapacityForR argentinaConnected cordoba stgo
 
---FALTA DELAYR
+delayBsAsStgo :: Float
+delayBsAsStgo = delayR argentina7 stgo cordoba
