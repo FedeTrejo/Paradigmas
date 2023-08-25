@@ -22,8 +22,8 @@ showTelco = do
   putStrLn "Region:"
   print argentinaConnected
   
-  putStrLn "Connected cities:"
-  print (connectedR argentinaConnected bsAs stgo)
+  putStrLn "Connected Cordoba & Santiago"
+  print (connectedR argentinaConnected cordoba stgo)
 
   putStrLn "Capacity:"
   print (availableCapacityForR argentinaConnected cordoba stgo)

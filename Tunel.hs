@@ -5,7 +5,12 @@ import City
 import Point
 import Quality
 
-data Tunel = Tun [Link] deriving (Eq, Show)
+data Tunel = Tun [Link]
+  deriving (Eq)
+
+instance Show Tunel where
+  show (Tun links) =
+    "Tunnel via " ++ show (length links) ++ " links"
 
 newT :: [Link] -> Tunel
 newT = Tun

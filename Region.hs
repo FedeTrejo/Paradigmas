@@ -6,10 +6,16 @@ import City
 import Link
 import Tunel
 import Quality
-import Data.List (find)
 
-data Region = Reg [City] [Link] [Tunel] deriving Show
+data Region = Reg [City] [Link] [Tunel]
+  deriving (Eq)
 
+instance Show Region where
+  show (Reg cities links tunnels) = 
+    "Region: " ++
+    show (length cities) ++ " cities, " ++ 
+    show (length links) ++ " links, " ++
+    show (length tunnels) ++ " tunnels"
 
 newR :: Region
 newR = Reg [] [] []

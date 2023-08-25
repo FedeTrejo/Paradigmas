@@ -1,4 +1,5 @@
-module Link where
+module Link ( Link, newL, linksL, connectsL, capacityL, delayL )
+   where
 
 import Quality
 import City

@@ -1,5 +1,5 @@
-module City where
-
+module City ( City, newC, nameC, distanceC )
+    where
 import Point
 
 data City = Cit String Point
