@@ -1,4 +1,4 @@
-module Link ( Link, newL, linksL, connectsL, capacityL, delayL, getCity1, getCity2 )
+module Link ( Link, newL, linksL, connectsL, capacityL, delayL)
     where
 import Quality 
 import City
@@ -19,9 +19,3 @@ capacityL (Lin _ _ quality) = capacityQ quality
 
 delayL :: Link -> Float
 delayL (Lin _ _ quality) = delayQ quality
-
-getCity1 :: Link -> City
-getCity1 (Lin city1 _ _) = city1
-
-getCity2 :: Link -> City
-getCity2 (Lin _ city2 _) = city2

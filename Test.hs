@@ -73,9 +73,7 @@ capacityCoSt :: Int
 capacityCoSt = availableCapacityForR argentina7 stgo cordoba
 
 argentinaConnected :: Region  
-argentinaConnected = 
-  let region = linkR argentina7 bsAs stgo medium
-  in tunelR region [bsAs, rosario, cordoba, stgo]
+argentinaConnected = tunelR argentina7 [bsAs, rosario, cordoba, stgo]
   
 testConnected :: Bool
 testConnected = connectedR argentinaConnected bsAs stgo
@@ -83,5 +81,5 @@ testConnected = connectedR argentinaConnected bsAs stgo
 capInReg :: Int 
 capInReg = availableCapacityForR argentinaConnected cordoba stgo
 
-delayBsAsStgo :: Float
-delayBsAsStgo = delayR argentina7 stgo cordoba
+delayBsStinREGION :: Float
+delayBsStinREGION = delayR argentinaConnected stgo bsAs --0,2 + 0,2 + 0,5

@@ -6,7 +6,7 @@ import City
 import Link
 import Tunel
 import Quality
-
+import Data.List (find)
 
 data Region = Reg [City] [Link] [Tunel] deriving Show
 
@@ -30,7 +30,7 @@ linkR (Reg cities links tunnels) c1 c2 q
 findLink :: Region -> City -> City -> Link
 findLink (Reg _ links _) city1 city2 = findMatchingLink links
   where
-    findMatchingLink [] = error "No existe un enlace válido entre las ciudades."
+    findMatchingLink [] = error "There is no valid link between cities"
     findMatchingLink (l:ls)
       | linksL city1 city2 l = l
       | otherwise = findMatchingLink ls
@@ -41,10 +41,10 @@ regionToLinks (Reg _ links _) = links
 tunelR :: Region -> [City] -> Region
 tunelR region [] = region
 tunelR region [_] = region
-tunelR region (c1:c2:restCities) =
-  if hasAvailableCapacity link region
+tunelR region c@(c1:c2:restCities) =
+  if hasAvailableCapacity region c
     then tunelR (placeTunnel region link newTunnel) (c2 : restCities)
-    else error "No hay capacidad disponible en el enlace entre las ciudades."
+    else error "There is no available capacity on the link between those cities"
   where
     link = findLink region c1 c2
     newTunnel = newT (regionToLinks region)  
@@ -67,8 +67,10 @@ countLinkInTunnels link (t:tunnels)
 usedCapacity :: Link -> Region -> Int
 usedCapacity link (Reg _ _ tunnels) = countLinkInTunnels link tunnels
 
-hasAvailableCapacity :: Link -> Region -> Bool
-hasAvailableCapacity link region = availableCapacityForR region (getCity1 link) (getCity2 link) > 0
+hasAvailableCapacity :: Region -> [City] -> Bool
+hasAvailableCapacity region (c:cities) 
+   | length cities == 1 = availableCapacityForR region c (head cities) >= 1
+   | otherwise = availableCapacityForR region c (head cities) >= 1 && hasAvailableCapacity region cities
 
 connectedR :: Region -> City -> City -> Bool
 connectedR (Reg cities links tunnels) c1 c2 =
@@ -84,12 +86,35 @@ linkedR (Reg cities [] tunnels) c1 c2 = False
 linkedR (Reg cities (l:links) tunnels) c1 c2 =  if (linksL c1 c2 l) then True
                                                 else linkedR (Reg cities links tunnels) c1 c2
 
-delayR :: Region -> City -> City -> Float 
-delayR (Reg cities [] tunnels) _ _ = error "No links between those cities in the region"
-delayR (Reg cities (l:links) tunnels) c1 c2 =
-  if linksL c1 c2 l
-    then delayL l
-    else delayR (Reg cities links tunnels) c1 c2
+delayR :: Region -> City -> City -> Float
+delayR (Reg _ links tunnels) c1 c2
+    | isDirectLink = delayL directLink
+    | isTunneled = sum (map delayT connectingTunnels) + tunnelDelay
+    | otherwise = error "There is no direct link or tunnel between those cities"
+  where
+      isDirectLink = isLinkAvailable links c1 c2 || isLinkAvailable links c2 c1
+     
+      isLinkAvailable [] _ _ = False
+      isLinkAvailable (l:ls) city1 city2
+          | linksL city1 city2 l = True
+          | otherwise = isLinkAvailable ls city1 city2
+     
+      directLink = getDirectLink links c1 c2
+     
+      getDirectLink [] _ _ = error "Direct link not found"
+      getDirectLink (l:ls) city1 city2
+          | linksL city1 city2 l = l
+          | otherwise = getDirectLink ls city1 city2
+     
+      isTunneled = isTunnelAvailable tunnels c1 c2 || isTunnelAvailable tunnels c2 c1
+     
+      isTunnelAvailable [] _ _ = False
+      isTunnelAvailable (t:ts) city1 city2
+          | connectsT city1 city2 t = True
+          | otherwise = isTunnelAvailable ts city1 city2
+     
+      connectingTunnels = filter (\t -> connectsT c1 c2 t || connectsT c2 c1 t) tunnels
+      tunnelDelay = sum [delayT t | t <- tunnels, not (connectsT c1 c2 t || connectsT c2 c1 t)]
 
 availableCapacityForR :: Region -> City -> City -> Int
 availableCapacityForR (Reg cities [] _) _ _ = error "No links between those cities in the region"
