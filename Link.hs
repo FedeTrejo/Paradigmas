@@ -1,9 +1,14 @@
-module Link ( Link, newL, linksL, connectsL, capacityL, delayL)
-    where
-import Quality 
+module Link where
+
+import Quality
 import City
 
-data Link = Lin City City Quality deriving (Eq, Show)
+data Link = Lin City City Quality  
+  deriving (Eq)
+
+instance Show Link where
+  show (Lin city1 city2 quality) =
+    nameC city1 ++ " <-> " ++ nameC city2 ++ " (" ++ show quality ++ ")"
 
 newL :: City -> City -> Quality -> Link
 newL = Lin

@@ -1,12 +1,16 @@
-module City ( City, newC, nameC, distanceC )
-    where
+module City where
+
 import Point
 
+data City = Cit String Point
+  deriving (Eq)
 
-data City = Cit String Point deriving (Eq, Show)
+instance Show City where
+  show :: City -> String
+  show (Cit name point) = 
+    name ++ " (" ++ show point ++ ")"
 
-
-newC :: String -> Point -> City
+newC :: String -> Point -> City  
 newC = Cit
 
 nameC :: City -> String
