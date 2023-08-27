@@ -15,11 +15,9 @@ showTelco = do
   print linBsSt
   print linStBs
   print linkCoSg
-
-  putStrLn "Tunnel:" 
+ 
   print t1
 
-  putStrLn "Region:"
   print argentinaConnected
   
   putStrLn "Connected Cordoba & Santiago"

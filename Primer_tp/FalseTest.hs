@@ -5,7 +5,7 @@ import Test
 import Region
 import Tunel
 
-fT = [
+falses = [
   linksL stgo cordoba linBsSt,
 
   connectsL cordoba linBsSt,
