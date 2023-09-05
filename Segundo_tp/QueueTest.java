@@ -3,8 +3,9 @@ package queue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
 import org.junit.jupiter.api.Test;
+
+import java.util.NoSuchElementException;
 
 public class QueueTest {
 
@@ -74,9 +75,7 @@ public class QueueTest {
     Queue queue = new Queue();
     try {
       queue.take();
-      fail( "Expected Error was not thrown." );
-    } catch (Error e) {
-      assertTrue( e.getMessage().equals( "Queue is empty" ) );
+    } catch (NoSuchElementException ignored) {
     }
   }
 
@@ -86,9 +85,7 @@ public class QueueTest {
     queue.take();
     try {
       queue.take();
-      fail( "Expected Error was not thrown." );
-    } catch (Error e) {
-      assertTrue( e.getMessage().equals( "Queue is empty" ) );
+    } catch (NoSuchElementException ignored) {
     }
   }
 
@@ -96,9 +93,7 @@ public class QueueTest {
     Queue queue = new Queue();
     try {
       queue.head();
-      fail( "Expected Error was not thrown." );
-    } catch (Error e) {
-      assertTrue( e.getMessage().equals( "Queue is empty" ) );
+    } catch (NoSuchElementException ignored) {
     }
   }
 }
