@@ -16,10 +16,16 @@ public class Queue {
 	}
 
 	public Object take() {
+		if(list.isEmpty()) {
+			throw new Error("Queue is empty");
+		}
 		return list.removeFirst();
 	}
 
 	public Object head() {
+		if(list.isEmpty()) {
+			throw new Error("Queue is empty");
+		}
 		return list.getFirst();
 	}
 

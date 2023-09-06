@@ -3,9 +3,8 @@ package queue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 import org.junit.jupiter.api.Test;
-
-import java.util.NoSuchElementException;
 
 public class QueueTest {
 
@@ -24,7 +23,7 @@ public class QueueTest {
   @Test public void test04TakeRemovesElementsFromTheQueue() {
     Queue queue = new Queue().add( "Something" );
     queue.take();
-    
+
     assertTrue( queue.isEmpty() );
   }
 
@@ -32,7 +31,7 @@ public class QueueTest {
     Queue queue = new Queue();
     String addedObject = "Something";
     queue.add( addedObject );
-    
+
     assertEquals( addedObject, queue.take() );
   }
 
@@ -75,7 +74,9 @@ public class QueueTest {
     Queue queue = new Queue();
     try {
       queue.take();
-    } catch (NoSuchElementException ignored) {
+      fail( "Expected Error was not thrown." );
+    } catch (Error e) {
+      assertTrue( e.getMessage().equals( "Queue is empty" ) );
     }
   }
 
@@ -85,7 +86,9 @@ public class QueueTest {
     queue.take();
     try {
       queue.take();
-    } catch (NoSuchElementException ignored) {
+      fail( "Expected Error was not thrown." );
+    } catch (Error e) {
+      assertTrue( e.getMessage().equals( "Queue is empty" ) );
     }
   }
 
@@ -93,7 +96,9 @@ public class QueueTest {
     Queue queue = new Queue();
     try {
       queue.head();
-    } catch (NoSuchElementException ignored) {
+      fail( "Expected Error was not thrown." );
+    } catch (Error e) {
+      assertTrue( e.getMessage().equals( "Queue is empty" ) );
     }
   }
 }
