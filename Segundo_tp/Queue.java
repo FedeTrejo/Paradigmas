@@ -1,36 +1,30 @@
 package queue;
 
-import java.util.LinkedList;
-
 public class Queue {
+	private CustomArray queue = new EmptyArray();
 
-	private final LinkedList<Object> list = new LinkedList<>();
 
-	public boolean isEmpty() {
-		return list.isEmpty();
+  public boolean isEmpty() {
+		return size()==0;
 	}
 
-	public Queue add(Object cargo) {
-		list.addLast(cargo);
+	public Queue add( Object  cargo ) {
+		queue = queue.add( cargo );
 		return this;
 	}
 
 	public Object take() {
-		if(list.isEmpty()) {
-			throw new Error("Queue is empty");
-		}
-		return list.removeFirst();
+	  	Object head = head();
+		queue = queue.remove_head();
+		return head;
 	}
 
 	public Object head() {
-		if(list.isEmpty()) {
-			throw new Error("Queue is empty");
-		}
-		return list.getFirst();
+		return queue.head();
 	}
 
 	public int size() {
-		return list.size();
+		return queue.size();
 	}
 
 }
