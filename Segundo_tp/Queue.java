@@ -7,7 +7,7 @@ public class Queue {
 
 	private final ArrayList<Container> list = new ArrayList<>();
 	public Queue(){
-		list.add(new Toxic_container());
+		list.add(new Void_in_queue());
 	}
 
 	public boolean isEmpty() {
