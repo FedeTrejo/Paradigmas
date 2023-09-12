@@ -1,36 +1,38 @@
 package queue;
 
-import java.util.LinkedList;
+import java.awt.*;
+import java.util.ArrayList;
 
 public class Queue {
 
-	private final LinkedList<Object> list = new LinkedList<>();
+	private final ArrayList<Container> list = new ArrayList<>();
+	public Queue(){
+		list.add(new Toxic_container());
+	}
 
 	public boolean isEmpty() {
-		return list.isEmpty();
+		return list.size()==1;
 	}
 
 	public Queue add(Object cargo) {
-		list.addLast(cargo);
+		list.add(1,new Normal_container(cargo));
 		return this;
 	}
 
 	public Object take() {
-		if(list.isEmpty()) {
-			throw new Error("Queue is empty");
-		}
-		return list.removeFirst();
+		return list.remove(getLast()).getCargo();
 	}
 
 	public Object head() {
-		if(list.isEmpty()) {
-			throw new Error("Queue is empty");
-		}
-		return list.getFirst();
+		return list.get(getLast()).getCargo();
 	}
 
 	public int size() {
-		return list.size();
+		return list.size() - 1;
+	}
+
+	private int getLast(){
+		return size();
 	}
 
 }
