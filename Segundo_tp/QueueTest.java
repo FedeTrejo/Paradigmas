@@ -95,6 +95,40 @@ class QueueTest {
     queue.take();
     assertThrows(Error.class, () -> queue.take());
   }
+  @Test
+  void canAddNullElement() {
+    queue.add(null);
+  }
+
+  @Test
+  void sizeIncrementsWhenAddingElements() {
+    assertEquals(0, queue.size());
+    addSomethingToQueue();
+    assertEquals(1, queue.size());
+  }
+
+  @Test
+  void canAddDifferentDataTypes() {
+    queue.add(123);
+    queue.add(true);
+  }
+
+  @Test
+  void canTakeFromQueueInLoop() {
+    addToQueueInOrder();
+    for (int i = 0; i < 2; i++) {
+      assertNotNull(queue.take());
+    }
+  }
+
+  @Test
+  void queueSizeDecrementsWhenTaking() {
+    addSomethingToQueue();
+    assertEquals(1, queue.size());
+
+    queue.take();
+    assertEquals(0, queue.size());
+  }
 
   private void addSomethingToQueue() {
     queue.add(something);
