@@ -4,34 +4,31 @@ import java.util.ArrayList;
 
 public class Queue {
 
-	private final ArrayList<Container> list = new ArrayList<>();
-	public Queue(){
-		list.add(new Void_in_queue());
+	public ArrayList<Container> queue;
+
+	public Queue() {
+		queue = new ArrayList<>();
+		queue.add(new VoidContainer());
 	}
 
-	public boolean isEmpty() {
-		return list.size()==1;
-	}
-
-	public Queue add(Object cargo) {
-		list.add(1,new Normal_container(cargo));
-		return this;
+	public void add(Object cargo) {
+		queue.add(size(), new LoadedContainer(cargo));
 	}
 
 	public Object take() {
-		return list.remove(getLast()).getCargo();
+		return queue.remove(0).item();
 	}
 
 	public Object head() {
-		return list.get(getLast()).getCargo();
+		return queue.get(0).item();
+	}
+
+	public boolean isEmpty() {
+		return queue.size() == 1;
 	}
 
 	public int size() {
-		return list.size() - 1;
-	}
-
-	private int getLast(){
-		return size();
+		return queue.size() - 1;
 	}
 
 }

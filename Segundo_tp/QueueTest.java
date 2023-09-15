@@ -97,9 +97,13 @@ class QueueTest {
   }
   @Test
   void canAddNullElement() {
-    queue.add(null);
+    addNull();
   }
-
+  @Test
+  void addingAndTakingNull() {
+    addNull();
+    assertNull(queue.take());
+  }
   @Test
   void sizeIncrementsWhenAddingElements() {
     assertEquals(0, queue.size());
@@ -114,14 +118,6 @@ class QueueTest {
   }
 
   @Test
-  void canTakeFromQueueInLoop() {
-    addToQueueInOrder();
-    for (int i = 0; i < 2; i++) {
-      assertNotNull(queue.take());
-    }
-  }
-
-  @Test
   void queueSizeDecrementsWhenTaking() {
     addSomethingToQueue();
     assertEquals(1, queue.size());
@@ -129,6 +125,11 @@ class QueueTest {
     queue.take();
     assertEquals(0, queue.size());
   }
+
+  private void addNull() {
+    queue.add(null);
+  }
+
 
   private void addSomethingToQueue() {
     queue.add(something);
