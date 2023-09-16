@@ -11,45 +11,35 @@ class QueueTest {
   private final String first = "First";
   private final String second = "Second";
 
-  @BeforeEach
-  void init() {
+  @BeforeEach void init() {
     this.queue = new Queue();
   }
 
-  @Test
-  void isEmptyWhenCreated() {
+  @Test void isEmptyWhenCreated() {
     assertTrue(queue.isEmpty());
   }
 
-  @Test
-  void isNotEmptyAfterAdd() {
+  @Test void isNotEmptyAfterAdd() {
     addSomethingToQueue();
     assertFalse(queue.isEmpty());
   }
 
-  @Test
-  void addedIsAtHead() {
+  @Test void addedIsAtHead() {
     addSomethingToQueue();
     assertEquals(something, queue.head());
   }
 
-
-  @Test
-  void takeRemovesElement() {
+  @Test void takeRemovesElement() {
     addSomethingToQueue();
     queue.take();
     assertTrue(queue.isEmpty());
   }
-
-  @Test
-  void takeReturnsAddedElement() {
+  @Test void takeReturnsAddedElement() {
     addSomethingToQueue();
     assertEquals(something, queue.take());
   }
 
-  @Test
-
-  void behavesAsFIFO() {
+  @Test void behavesAsFIFO() {
     addToQueueInOrder();
     assertEquals(first, queue.take());
     assertEquals(second, queue.take());
@@ -57,68 +47,56 @@ class QueueTest {
 
   }
 
-  @Test
-  void headReturnsFirstElement() {
+  @Test void headReturnsFirstElement() {
     addToQueueInOrder();
     assertEquals(first, queue.head());
   }
 
-  @Test
-  void headDoesNotRemove() {
+  @Test void headDoesNotRemove() {
     addSomethingToQueue();
     assertSize(1);
     queue.head();
     assertSize(1);
   }
 
-
-  @Test
-  void sizeEqualsElements() {
+  @Test void sizeEqualsElements() {
     addToQueueInOrder();
     assertSize(2);
   }
 
-  @Test
-  void takeOnEmptyThrows() {
+  @Test void takeOnEmptyThrows() {
     assertThrows(Error.class, () -> queue.take());
   }
 
-
-  @Test
-  void headOnEmptyThrows() {
+  @Test void headOnEmptyThrows() {
     assertThrows(Error.class, () -> queue.head());
   }
 
-  @Test
-  void takeOnDepletedThrows() {
+  @Test void takeOnDepletedThrows() {
     addSomethingToQueue();
     queue.take();
     assertThrows(Error.class, () -> queue.take());
   }
-  @Test
-  void canAddNullElement() {
+  @Test void canAddNullElement() {
     addNull();
   }
-  @Test
-  void addingAndTakingNull() {
+
+  @Test void addingAndTakingNull() {
     addNull();
     assertNull(queue.take());
   }
-  @Test
-  void sizeIncrementsWhenAddingElements() {
+  @Test void sizeIncrementsWhenAddingElements() {
     assertEquals(0, queue.size());
     addSomethingToQueue();
     assertEquals(1, queue.size());
   }
 
-  @Test
-  void canAddDifferentDataTypes() {
+  @Test void canAddDifferentDataTypes() {
     queue.add(123);
     queue.add(true);
   }
 
-  @Test
-  void queueSizeDecrementsWhenTaking() {
+  @Test void queueSizeDecrementsWhenTaking() {
     addSomethingToQueue();
     assertEquals(1, queue.size());
 
@@ -129,7 +107,6 @@ class QueueTest {
   private void addNull() {
     queue.add(null);
   }
-
 
   private void addSomethingToQueue() {
     queue.add(something);
