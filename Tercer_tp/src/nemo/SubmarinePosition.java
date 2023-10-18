@@ -1,8 +1,8 @@
 package nemo;
 
 public class SubmarinePosition {
-    private final int x;
-    private final int y;
+    private int x;
+    private int y;
 
     public SubmarinePosition(int x, int y) {
         this.x = x;
@@ -20,10 +20,10 @@ public class SubmarinePosition {
         return false;
     }
 
-    private int getX() {
+    public int getX() {
         return x;
     }
-    private int getY() {
+    public int getY() {
         return y;
     }
 

@@ -4,33 +4,33 @@ import java.util.ArrayList;
 
 public class Submarine {
     private SubmarinePosition submarinePosition;
-    private SubmarineOrientation submarineOrientation;
-    private ArrayList<SubmarineDepth> submarineDepth = new ArrayList<>();
+    private Orientation orientation;
+    private ArrayList<Depth> depth = new ArrayList<>();
 
-    public Submarine(SubmarinePosition submarinePosition, SubmarineOrientation submarineOrientation) {
+    public Submarine(SubmarinePosition submarinePosition, Orientation orientation) {
         this.submarinePosition = submarinePosition;
-        this.submarineOrientation = submarineOrientation;
-        this.submarineDepth.add(new TopDepthLevel());
+        this.orientation = orientation;
+        this.depth.add(new SurfaceLevel());
     }
 
     public SubmarinePosition getSubmarinePosition() {
         return submarinePosition;
     }
 
-    public SubmarineOrientation getSubmarineOrientation() {
-        return submarineOrientation;
+    public Orientation getSubmarineOrientation() {
+        return orientation;
     }
 
-    public SubmarineDepth getSubmarineDepth() {
-        return submarineDepth.get(0);
+    public Depth getSubmarineDepth() {
+        return depth.get(0);
     }
 
-    public ArrayList<SubmarineDepth> getSubmarineDepthList() {
-        return submarineDepth;
+    public ArrayList<Depth> getSubmarineDepthList() {
+        return depth;
     }
 
     public void runCommands(String instructions) {
-        instructions.chars().forEach(instruction -> SubmarineCommand.commandFor(String.valueOf((char) instruction)).runCommand(this));
+        instructions.chars().forEach(instruction -> Command.commandFor(String.valueOf((char) instruction)).runCommand(this));
     }
 
     public void forward() {
@@ -61,12 +61,12 @@ public class Submarine {
         this.submarinePosition = submarinePosition;
     }
 
-    private void setSubmarineOrientation(SubmarineOrientation submarineOrientation) {
-        this.submarineOrientation = submarineOrientation;
+    private void setSubmarineOrientation(Orientation orientation) {
+        this.orientation = orientation;
     }
 
-    private void setSubmarineDepth(ArrayList<SubmarineDepth> submarineDepths) {
-        this.submarineDepth = submarineDepths;
+    private void setSubmarineDepth(ArrayList<Depth> depths) {
+        this.depth = depths;
     }
 
 }

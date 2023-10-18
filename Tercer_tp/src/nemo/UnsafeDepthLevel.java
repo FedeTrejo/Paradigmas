@@ -1,6 +1,6 @@
 package nemo;
 
-public class UnsafeDepthLevel extends SubmarineDepth {
+public class UnsafeDepthLevel extends Depth {
 
     public static String LAUNCH_ERROR_MESSAGE = "Not possible";
 

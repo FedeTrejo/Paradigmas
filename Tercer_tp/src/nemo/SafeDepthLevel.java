@@ -1,6 +1,6 @@
 package nemo;
 
-public class SafeDepthLevel extends SubmarineDepth {
+public class SafeDepthLevel extends Depth {
     public void shoot() {}
 
     public int submarineDepths() {
