@@ -1,19 +1,16 @@
 package nemo;
 
 public class NorthSubmarineOrientation extends SubmarineOrientation {
-    public SubmarineOrientation turnLeft() {
+    public SubmarineOrientation rotateLeft() {
         return new WestSubmarineOrientation();
     }
 
-    public SubmarineOrientation turnRight() {
+    public SubmarineOrientation rotateRight() {
         return new EastSubmarineOrientation();
     }
 
-    public SubmarinePosition moveForwardFrom(SubmarinePosition submarinePosition) {
-        return new SubmarinePosition(submarinePosition.x(), submarinePosition.y() + 1);
+    public SubmarinePosition moveForwardFrom() {
+        return new SubmarinePosition(0, 1);
     }
 
-    public boolean equals(Object other) {
-        return other instanceof NorthSubmarineOrientation;
-    }
 }

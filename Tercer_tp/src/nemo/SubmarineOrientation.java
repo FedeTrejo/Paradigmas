@@ -1,10 +1,10 @@
 package nemo;
 
-public abstract class   SubmarineOrientation {
-    public abstract SubmarineOrientation turnLeft();
+public abstract class SubmarineOrientation {
+    public abstract SubmarineOrientation rotateLeft();
 
-    public abstract SubmarineOrientation turnRight();
+    public abstract SubmarineOrientation rotateRight();
 
-    public abstract SubmarinePosition moveForwardFrom(SubmarinePosition submarinePosition);
+    public abstract SubmarinePosition moveForwardFrom();
 
 }

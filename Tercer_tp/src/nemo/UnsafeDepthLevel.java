@@ -12,12 +12,4 @@ public class UnsafeDepthLevel extends SubmarineDepth {
     public int submarineDepths() {
         return 2;
     }
-
-    public SubmarineDepth ascend() {
-        return null;
-    }
-
-    public SubmarineDepth descend() {
-        return new UnsafeDepthLevel();
-    }
 }

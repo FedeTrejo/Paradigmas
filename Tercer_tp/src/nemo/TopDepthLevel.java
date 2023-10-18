@@ -1,5 +1,7 @@
 package nemo;
 
+import java.util.ArrayList;
+
 public class TopDepthLevel extends SubmarineDepth {
     public void shoot() {}
 
@@ -7,11 +9,12 @@ public class TopDepthLevel extends SubmarineDepth {
         return 0;
     }
 
-    public SubmarineDepth ascend() {
-        return this;
+    public ArrayList<SubmarineDepth> ascend(Submarine submarine) {
+        return submarine.getSubmarineDepthList();
     }
 
-    public SubmarineDepth descend() {
-        return new SafeDepthLevel();
+    public void descend(Submarine submarine) {
+        ArrayList<SubmarineDepth> newSubmarineDepthList = submarine.getSubmarineDepthList();
+        newSubmarineDepthList.add(0, new SafeDepthLevel());
     }
 }

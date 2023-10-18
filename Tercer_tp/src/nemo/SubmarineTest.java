@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 import org.junit.Test;
 
-public class NemoTest {
+public class SubmarineTest {
 
     @Test
     public void testSubmarinePosition() {
