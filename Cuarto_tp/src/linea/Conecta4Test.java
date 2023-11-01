@@ -29,6 +29,11 @@ public class Conecta4Test {
         assertThrows(RuntimeException.class, () -> game1.playRedAt(1));
     }
 
+    @Test public void testPuttingAPieceInAnInvalidColumnShouldFail(){
+        Conecta4 game1 = new Conecta4(4, 4);
+        assertThrows(RuntimeException.class, () -> game1.playRedAt(6));
+    }
+
     @Test public void testGameFinishesWhenFourInAHorizontalRow(){
         Conecta4 game1 = new Conecta4(4, 4);
 
