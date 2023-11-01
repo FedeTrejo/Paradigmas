@@ -152,4 +152,11 @@ public class Conecta4 {
     public boolean isRedTurn() {
         return itsRedTurn;
     }
+
+    public boolean redWon() {
+        return fourInARow() && !itsRedTurn;
+    }
+    public boolean blueWon() {
+        return fourInARow() && itsRedTurn;
+    }
 }

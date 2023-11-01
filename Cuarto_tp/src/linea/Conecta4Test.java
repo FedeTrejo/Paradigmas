@@ -43,6 +43,7 @@ public class Conecta4Test {
         System.out.println( game1.showBoard() );
         assertTrue(game1.finished());
         assertTrue(game1.fourInARow());
+        assertTrue(game1.redWon());
     }
 
     @Test public void testGameFinishesWhenFourInAVerticalRow(){
@@ -59,6 +60,7 @@ public class Conecta4Test {
         System.out.println( game1.showBoard() );
         assertTrue(game1.finished());
         assertTrue(game1.fourInARow());
+        assertTrue(game1.redWon());
     }
 
     @Test public void testGameFinishesWhenFourInADiagonalRow(){
@@ -79,6 +81,7 @@ public class Conecta4Test {
         System.out.println( game1.showBoard() );
         assertTrue(game1.finished());
         assertTrue(game1.fourInARow());
+        assertTrue(game1.redWon());
     }
 
     @Test
@@ -106,6 +109,7 @@ public class Conecta4Test {
         assertTrue(game.finished());
         assertFalse(game.fourInARow());
         assertTrue(game.boardIsFull());
+        assertFalse(game.redWon());
     }
 
     @Test public void testPuttingAPieceInAFullColumnShouldFail(){
@@ -138,6 +142,8 @@ public class Conecta4Test {
 
         System.out.println( game1.showBoard() );
         assertTrue(game1.finished());
+        assertTrue(game1.fourInARow());
+        assertTrue(game1.redWon());
         assertThrows(RuntimeException.class, () -> game1.playBlueAt(0));
     }
 }
