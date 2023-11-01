@@ -108,6 +108,19 @@ public class Conecta4Test {
         assertTrue(game.boardIsFull());
     }
 
+    @Test public void testPuttingAPieceInAFullColumnShouldFail(){
+        Conecta4 game1 = new Conecta4(4, 4);
+
+        game1.playRedAt(0);
+        game1.playBlueAt(0);
+        game1.playRedAt(0);
+        game1.playBlueAt(0);
+
+        System.out.println( game1.showBoard() );
+        assertThrows(RuntimeException.class, () -> game1.playRedAt(0));
+        assertFalse(game1.finished());
+    }
+
     @Test public void testOnceTheGameIsFinishedPlayingAgainShouldFail(){
         Conecta4 game1 = new Conecta4(4, 4);
 
