@@ -1,10 +1,9 @@
 package linea;
 import java.util.List;
 import java.util.ArrayList;
-
+import java.util.stream.IntStream;
 
 public class Conecta4 {
-
     private static final char notMarked = ' ';
 
     public static final String columnFull = "Illegal movement, column is full";
@@ -14,150 +13,134 @@ public class Conecta4 {
     private final List<List<Character>> TABLE;
     private final int HEIGHT;
     private final int WIDTH;
-    private final char GAMEMODE;
+    private static GameMode GAMEMODE;
 
     private boolean itsRedTurn;
 
-    public Conecta4(int rows, int cols, char gamemode) {
+    public Conecta4(int rows, int cols, GameMode gamemode) {
         if (rows < 4 || cols < 4) throw new RuntimeException("Board size must be at least 4x4");
-        if (gamemode != 'A' && gamemode != 'B' && gamemode != 'C') throw new RuntimeException("Game mode must be A, B, or C");
         this.HEIGHT = rows;
         this.WIDTH = cols;
         this.GAMEMODE = gamemode;
 
         this.TABLE = new ArrayList<>(rows);
-        for (int i = 0; i < rows; i++) {
+        IntStream.range(0, rows).forEach(i -> {
             List<Character> row = new ArrayList<>(cols);
-            for (int j = 0; j < cols; j++) {
-                row.add(notMarked);
-            }
+            IntStream.range(0, cols).forEach(j -> row.add(notMarked));
             this.TABLE.add(row);
-        }
+        });
+
         itsRedTurn = true;
     }
-
 
     public String showBoard() {
         StringBuilder board = new StringBuilder();
 
-        for (int i = 0; i < this.HEIGHT; i++) {
+        this.TABLE.stream().forEach(row -> {
             board.append("|");
-            for (int j = 0; j < this.WIDTH; j++) {
-                board.append(this.TABLE.get(i).get(j));
-            }
+            row.stream().forEach(cell -> board.append(cell));
             board.append("|\n");
-        }
+        });
 
         return board.toString();
     }
 
-
     public boolean finished() {
-        return fourInARow() || boardIsFull();
+        return GAMEMODE.fourInARow(this) || boardIsFull();
     }
 
-    public boolean fourInARow() {
-        if (GAMEMODE == 'A') {
-            return fourInAHorizontalRow() || fourInAVerticalRow();
-        } else if (GAMEMODE == 'B') {
-            return fourInADiagonalRow();
-        } else if (GAMEMODE == 'C') {
-            return fourInAHorizontalRow() || fourInAVerticalRow() || fourInADiagonalRow();
-        } else {
-            throw new RuntimeException("Invalid game mode");
-        }
-    }
     public boolean boardIsFull() {
-        for (int i = 0; i < this.HEIGHT; i++) {
-            for (int j = 0; j < this.WIDTH; j++) {
-                if (this.TABLE.get(i).get(j) == notMarked) {
-                    return false;
-                }
-            }
-        }
-        return true;
+        return this.TABLE.stream()
+                .flatMap(List::stream)
+                .noneMatch(cell -> cell == notMarked);
     }
 
     public void playBlueAt(int column) {
-        if(!itsRedTurn && !finished()) {
-            int row = checkRowForColumn(column);
-            this.TABLE.get(row).set(column, BLUE);
-            itsRedTurn = true;
+        if(!itsRedTurn) {
+            if (!finished()) {
+                int row = checkRowForColumn(column);
+                this.TABLE.get(row).set(column, BLUE);
+                itsRedTurn = true;
+            } else {
+                throw new RuntimeException("game finished");
+            }
         }else {
-            throw new RuntimeException("It's not turn or game finished");
+            throw new RuntimeException("It's not turn");
         }
     }
 
     public void playRedAt(int column) {
-        if(itsRedTurn && !finished()) {
-            int row = checkRowForColumn(column);
-            this.TABLE.get(row).set(column, RED);
-            itsRedTurn = false;
+        if(itsRedTurn) {
+            if (!finished()) {
+                int row = checkRowForColumn(column);
+                this.TABLE.get(row).set(column, RED);
+                itsRedTurn = false;
+            } else {
+                throw new RuntimeException("game finished");
+            }
         }else {
-            throw new RuntimeException("It's not turn or game finished");
+            throw new RuntimeException("It's not turn");
         }
     }
 
     private int checkRowForColumn(int column) {
-        for (int row = this.HEIGHT - 1; row >= 0; row--) {
-            if (this.TABLE.get(row).get(column) == notMarked) {
-                return row;
-            }
-        }
-        throw new RuntimeException(columnFull);
+        int row = IntStream.range(0, this.HEIGHT)
+                .filter(i -> this.TABLE.get(i).get(column) == notMarked)
+                .reduce((first, second) -> second)
+                .orElseThrow(() -> new RuntimeException(columnFull));
+
+        return row;
     }
 
-    private boolean fourInADiagonalRow() {
-        for (int i = 0; i < this.HEIGHT - 3; i++) {
-            for (int j = 0; j < this.WIDTH - 3; j++) {
-                if (this.TABLE.get(i).get(j) != notMarked &&
-                        this.TABLE.get(i).get(j) == this.TABLE.get(i + 1).get(j + 1) &&
-                        this.TABLE.get(i).get(j) == this.TABLE.get(i + 2).get(j + 2) &&
-                        this.TABLE.get(i).get(j) == this.TABLE.get(i + 3).get(j + 3)) {
-                    return true;
-                }
-            }
-        }
-
-        for (int i = 0; i < this.HEIGHT - 3; i++) {
-            for (int j = 3; j < this.WIDTH; j++) {
-                if (this.TABLE.get(i).get(j) != notMarked &&
-                        this.TABLE.get(i).get(j) == this.TABLE.get(i + 1).get(j - 1) &&
-                        this.TABLE.get(i).get(j) == this.TABLE.get(i + 2).get(j - 2) &&
-                        this.TABLE.get(i).get(j) == this.TABLE.get(i + 3).get(j - 3)) {
-                    return true;
-                }
-            }
-        }
-        return false;
+    boolean fourInADiagonalRow() {
+        return IntStream.range(0, this.HEIGHT - 3)
+                .anyMatch(i -> IntStream.range(0, this.WIDTH - 3)
+                        .anyMatch(j -> isDiagonalMatch(i, j) || isAntiDiagonalMatch(i, j)));
     }
 
-    private boolean fourInAVerticalRow() {
-        for (int i = 0; i < this.HEIGHT - 3; i++) {
-            for (int j = 0; j < this.WIDTH; j++) {
-                if (this.TABLE.get(i).get(j) != notMarked &&
-                        this.TABLE.get(i).get(j) == this.TABLE.get(i + 1).get(j) &&
-                        this.TABLE.get(i).get(j) == this.TABLE.get(i + 2).get(j) &&
-                        this.TABLE.get(i).get(j) == this.TABLE.get(i + 3).get(j)) {
-                    return true;
-                }
-            }
-        }
-        return false;
+    private boolean isDiagonalMatch(int i, int j) {
+        char cell = this.TABLE.get(i).get(j);
+        return cell != notMarked &&
+                cell == this.TABLE.get(i + 1).get(j + 1) &&
+                cell == this.TABLE.get(i + 2).get(j + 2) &&
+                cell == this.TABLE.get(i + 3).get(j + 3);
     }
 
-    private boolean fourInAHorizontalRow() {
-        for (int i = 0; i < this.HEIGHT; i++) {
-            for (int j = 0; j < this.WIDTH - 3; j++) {
-                if (this.TABLE.get(i).get(j) != notMarked &&
-                        this.TABLE.get(i).get(j) == this.TABLE.get(i).get(j + 1) &&
-                        this.TABLE.get(i).get(j) == this.TABLE.get(i).get(j + 2) &&
-                        this.TABLE.get(i).get(j) == this.TABLE.get(i).get(j + 3)) {
-                    return true;
-                }
-            }
-        }
-        return false;
+    private boolean isAntiDiagonalMatch(int i, int j) {
+        char cell = this.TABLE.get(i).get(j + 3);
+        return cell != notMarked &&
+                cell == this.TABLE.get(i + 1).get(j + 2) &&
+                cell == this.TABLE.get(i + 2).get(j + 1) &&
+                cell == this.TABLE.get(i + 3).get(j);
+    }
+
+
+    boolean fourInAVerticalRow() {
+        return IntStream.range(0, this.HEIGHT - 3)
+                .anyMatch(i -> IntStream.range(0, this.WIDTH)
+                        .anyMatch(j -> isVerticalMatch(i, j)));
+    }
+
+    private boolean isVerticalMatch(int i, int j) {
+        char cell = this.TABLE.get(i).get(j);
+        return cell != notMarked &&
+                cell == this.TABLE.get(i + 1).get(j) &&
+                cell == this.TABLE.get(i + 2).get(j) &&
+                cell == this.TABLE.get(i + 3).get(j);
+    }
+
+    boolean fourInAHorizontalRow() {
+        return IntStream.range(0, this.HEIGHT)
+                .anyMatch(i -> IntStream.range(0, this.WIDTH - 3)
+                        .anyMatch(j -> isHorizontalMatch(i, j)));
+    }
+
+    private boolean isHorizontalMatch(int i, int j) {
+        char cell = this.TABLE.get(i).get(j);
+        return cell != notMarked &&
+                cell == this.TABLE.get(i).get(j + 1) &&
+                cell == this.TABLE.get(i).get(j + 2) &&
+                cell == this.TABLE.get(i).get(j + 3);
     }
 
     public boolean isRedTurn() {
@@ -165,9 +148,9 @@ public class Conecta4 {
     }
 
     public boolean redWon() {
-        return fourInARow() && !itsRedTurn;
+        return GAMEMODE.fourInARow(this) && !itsRedTurn;
     }
     public boolean blueWon() {
-        return fourInARow() && itsRedTurn;
+        return GAMEMODE.fourInARow(this) && itsRedTurn;
     }
 }
