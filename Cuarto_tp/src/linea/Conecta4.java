@@ -14,13 +14,16 @@ public class Conecta4 {
     private final List<List<Character>> TABLE;
     private final int HEIGHT;
     private final int WIDTH;
+    private final char GAMEMODE;
 
     private boolean itsRedTurn;
 
-    public Conecta4(int rows, int cols) {
-
+    public Conecta4(int rows, int cols, char gamemode) {
+        if (rows < 4 || cols < 4) throw new RuntimeException("Board size must be at least 4x4");
+        if (gamemode != 'A' && gamemode != 'B' && gamemode != 'C') throw new RuntimeException("Game mode must be A, B, or C");
         this.HEIGHT = rows;
         this.WIDTH = cols;
+        this.GAMEMODE = gamemode;
 
         this.TABLE = new ArrayList<>(rows);
         for (int i = 0; i < rows; i++) {
@@ -32,6 +35,7 @@ public class Conecta4 {
         }
         itsRedTurn = true;
     }
+
 
     public String showBoard() {
         StringBuilder board = new StringBuilder();
@@ -53,9 +57,16 @@ public class Conecta4 {
     }
 
     public boolean fourInARow() {
-        return fourInAHorizontalRow() || fourInAVerticalRow() || fourInADiagonalRow();
+        if (GAMEMODE == 'A') {
+            return fourInAHorizontalRow() || fourInAVerticalRow();
+        } else if (GAMEMODE == 'B') {
+            return fourInADiagonalRow();
+        } else if (GAMEMODE == 'C') {
+            return fourInAHorizontalRow() || fourInAVerticalRow() || fourInADiagonalRow();
+        } else {
+            throw new RuntimeException("Invalid game mode");
+        }
     }
-
     public boolean boardIsFull() {
         for (int i = 0; i < this.HEIGHT; i++) {
             for (int j = 0; j < this.WIDTH; j++) {

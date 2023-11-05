@@ -1,98 +1,162 @@
 package linea;
 
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
 
 import static org.junit.Assert.*;
 
 public class Conecta4Test {
+    private Conecta4 game;
+    @Test
+    public void testCannotInitializeBoardSmallerThan4x4() {
+        assertThrows(RuntimeException.class, () -> new Conecta4(3, 3, 'C'));
+    }
+
+    @Test public void testGameModeShouldBeABorC(){
+        assertThrows(RuntimeException.class, () -> new Conecta4(4, 4, 'D'));
+    }
 
     @Test
     public void testGameIsShownCorrectly() {
-        Conecta4 game1 = new Conecta4(4, 4);
+        Conecta4 game = new Conecta4(4, 4, 'C');
+        game.playRedAt(1);
+        game.playBlueAt(2);
+        String expectedBoard =
+                "|    |\n" +
+                        "|    |\n" +
+                        "|    |\n" +
+                        "| rb |\n";
 
-        game1.playRedAt(1);
-        game1.playBlueAt(2);
 
-        System.out.println( game1.showBoard() );
-
+        assertEquals(expectedBoard, game.showBoard());
     }
 
     @Test public void testRedStartsTheGame(){
-        Conecta4 game1 = new Conecta4(4, 4);
-        assertTrue(game1.isRedTurn());
+        assertTrue(new Conecta4(4, 4, 'C').isRedTurn());
     }
 
     @Test public void testOnceRedPlaysIfRedPlaysAgainShouldFail(){
-        Conecta4 game1 = new Conecta4(4, 4);
-
-        game1.playRedAt(1);
-        assertThrows(RuntimeException.class, () -> game1.playRedAt(1));
+        Conecta4 game = new Conecta4(4, 4, 'C');
+        game.playRedAt(1);
+        assertThrows(RuntimeException.class, () -> game.playRedAt(1));
     }
 
     @Test public void testPuttingAPieceInAnInvalidColumnShouldFail(){
-        Conecta4 game1 = new Conecta4(4, 4);
-        assertThrows(RuntimeException.class, () -> game1.playRedAt(6));
+        assertThrows(RuntimeException.class, () -> new Conecta4(4, 4, 'C').playRedAt(6));
     }
 
-    @Test public void testGameFinishesWhenFourInAHorizontalRow(){
-        Conecta4 game1 = new Conecta4(4, 4);
-
-        game1.playRedAt(0);
-        game1.playBlueAt(0);
-        game1.playRedAt(1);
-        game1.playBlueAt(1);
-        game1.playRedAt(2);
-        game1.playBlueAt(2);
-        game1.playRedAt(3);
-
-        System.out.println( game1.showBoard() );
-        assertTrue(game1.finished());
-        assertTrue(game1.fourInARow());
-        assertTrue(game1.redWon());
+    @Test public void testBluePlayngInRedTurnShouldFail(){
+        Conecta4 game = new Conecta4(4, 4, 'C');
+        assertThrows(RuntimeException.class, () -> game.playBlueAt(1));
     }
 
-    @Test public void testGameFinishesWhenFourInAVerticalRow(){
-        Conecta4 game1 = new Conecta4(4, 4);
+    @Test public void testGameFinishesWhenFourInAHorizontalRowAndGamemodeIsA(){
+        Conecta4 game = new Conecta4(4, 4, 'A');
+        game.playRedAt(0);
+        game.playBlueAt(0);
+        game.playRedAt(1);
+        game.playBlueAt(1);
+        game.playRedAt(2);
+        game.playBlueAt(2);
+        game.playRedAt(3);
 
-        game1.playRedAt(0);
-        game1.playBlueAt(1);
-        game1.playRedAt(0);
-        game1.playBlueAt(1);
-        game1.playRedAt(0);
-        game1.playBlueAt(1);
-        game1.playRedAt(0);
-
-        System.out.println( game1.showBoard() );
-        assertTrue(game1.finished());
-        assertTrue(game1.fourInARow());
-        assertTrue(game1.redWon());
+        System.out.println( game.showBoard() );
+        assertTrue(game.finished());
+        assertTrue(game.fourInARow());
+        assertTrue(game.redWon());
     }
 
-    @Test public void testGameFinishesWhenFourInADiagonalRow(){
-        Conecta4 game1 = new Conecta4(4, 4);
+    @Test public void testGameFinishesWhenFourInAVerticalRowAndGamemodeIsA(){
+        Conecta4 game = new Conecta4(4, 4, 'A');
+        game.playRedAt(0);
+        game.playBlueAt(1);
+        game.playRedAt(0);
+        game.playBlueAt(1);
+        game.playRedAt(0);
+        game.playBlueAt(1);
+        game.playRedAt(0);
 
-        game1.playRedAt(0);
-        game1.playBlueAt(1);
-        game1.playRedAt(1);
-        game1.playBlueAt(2);
-        game1.playRedAt(2);
-        game1.playBlueAt(3);
-        game1.playRedAt(2);
-        game1.playBlueAt(3);
-        game1.playRedAt(0);
-        game1.playBlueAt(3);
-        game1.playRedAt(3);
+        System.out.println( game.showBoard() );
+        assertTrue(game.finished());
+        assertTrue(game.fourInARow());
+        assertTrue(game.redWon());
+    }
+    @Test public void testGameDoesNotFinishWhenFourInADiagonalRowAndGamemodeIsA(){
+        Conecta4 game = new Conecta4(4, 4, 'A');
+        game.playRedAt(0);
+        game.playBlueAt(1);
+        game.playRedAt(1);
+        game.playBlueAt(2);
+        game.playRedAt(2);
+        game.playBlueAt(3);
+        game.playRedAt(2);
+        game.playBlueAt(3);
+        game.playRedAt(0);
+        game.playBlueAt(3);
+        game.playRedAt(3);
 
-        System.out.println( game1.showBoard() );
-        assertTrue(game1.finished());
-        assertTrue(game1.fourInARow());
-        assertTrue(game1.redWon());
+        System.out.println( game.showBoard() );
+        assertFalse(game.finished());
+        assertFalse(game.fourInARow());
+        assertFalse(game.redWon());
+    }
+
+    @Test public void testGameFinishesWhenFourInADiagonalRowAndGamemodeIsB(){
+        Conecta4 game = new Conecta4(4, 4, 'B');
+        game.playRedAt(0);
+        game.playBlueAt(1);
+        game.playRedAt(1);
+        game.playBlueAt(2);
+        game.playRedAt(2);
+        game.playBlueAt(3);
+        game.playRedAt(2);
+        game.playBlueAt(3);
+        game.playRedAt(0);
+        game.playBlueAt(3);
+        game.playRedAt(3);
+
+        System.out.println( game.showBoard() );
+        assertTrue(game.finished());
+        assertTrue(game.fourInARow());
+        assertTrue(game.redWon());
+    }
+
+    @Test public void testGameDoesNotFinishWhenFourInAHorizontalRowAndGamemodeIsB(){
+        Conecta4 game = new Conecta4(4, 4, 'B');
+        game.playRedAt(0);
+        game.playBlueAt(0);
+        game.playRedAt(1);
+        game.playBlueAt(1);
+        game.playRedAt(2);
+        game.playBlueAt(2);
+        game.playRedAt(3);
+
+        System.out.println( game.showBoard() );
+        assertFalse(game.finished());
+        assertFalse(game.fourInARow());
+        assertFalse(game.redWon());
+    }
+
+    @Test public void testGameDoesNotFinishWhenFourInAVerticalRowAndGamemodeIsB(){
+        Conecta4 game = new Conecta4(4, 4, 'B');
+        game.playRedAt(0);
+        game.playBlueAt(1);
+        game.playRedAt(0);
+        game.playBlueAt(1);
+        game.playRedAt(0);
+        game.playBlueAt(1);
+        game.playRedAt(0);
+
+        System.out.println( game.showBoard() );
+        assertFalse(game.finished());
+        assertFalse(game.fourInARow());
+        assertFalse(game.redWon());
     }
 
     @Test
     public void testGameFinishesAtTieIfNobodyWinsAndTheBoardIsFull() {
-        Conecta4 game = new Conecta4(4, 4);
-
+        Conecta4 game = new Conecta4(4, 4, 'C');
         game.playRedAt(0);
         game.playBlueAt(1);
         game.playRedAt(0);
@@ -118,37 +182,36 @@ public class Conecta4Test {
     }
 
     @Test public void testPuttingAPieceInAFullColumnShouldFail(){
-        Conecta4 game1 = new Conecta4(4, 4);
+        Conecta4 game = new Conecta4(4, 4, 'C');
+        game.playRedAt(0);
+        game.playBlueAt(0);
+        game.playRedAt(0);
+        game.playBlueAt(0);
 
-        game1.playRedAt(0);
-        game1.playBlueAt(0);
-        game1.playRedAt(0);
-        game1.playBlueAt(0);
-
-        System.out.println( game1.showBoard() );
-        assertThrows(RuntimeException.class, () -> game1.playRedAt(0));
-        assertFalse(game1.finished());
+        System.out.println( game.showBoard() );
+        assertThrows(RuntimeException.class, () -> game.playRedAt(0));
+        assertFalse(game.finished());
     }
 
     @Test public void testOnceTheGameIsFinishedPlayingAgainShouldFail(){
-        Conecta4 game1 = new Conecta4(4, 4);
+        Conecta4 game = new Conecta4(4, 4, 'C');
+        game.playRedAt(0);
+        game.playBlueAt(1);
+        game.playRedAt(1);
+        game.playBlueAt(2);
+        game.playRedAt(2);
+        game.playBlueAt(3);
+        game.playRedAt(2);
+        game.playBlueAt(3);
+        game.playRedAt(0);
+        game.playBlueAt(3);
+        game.playRedAt(3);
 
-        game1.playRedAt(0);
-        game1.playBlueAt(1);
-        game1.playRedAt(1);
-        game1.playBlueAt(2);
-        game1.playRedAt(2);
-        game1.playBlueAt(3);
-        game1.playRedAt(2);
-        game1.playBlueAt(3);
-        game1.playRedAt(0);
-        game1.playBlueAt(3);
-        game1.playRedAt(3);
-
-        System.out.println( game1.showBoard() );
-        assertTrue(game1.finished());
-        assertTrue(game1.fourInARow());
-        assertTrue(game1.redWon());
-        assertThrows(RuntimeException.class, () -> game1.playBlueAt(0));
+        System.out.println( game.showBoard() );
+        assertTrue(game.finished());
+        assertTrue(game.fourInARow());
+        assertTrue(game.redWon());
+        assertThrows(RuntimeException.class, () -> game.playBlueAt(0));
     }
+
 }
