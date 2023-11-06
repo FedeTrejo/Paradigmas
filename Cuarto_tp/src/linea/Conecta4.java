@@ -7,15 +7,15 @@ public class Conecta4 {
     private static final char notMarked = ' ';
 
     public static final String columnFull = "Illegal movement, column is full";
-    private static final char BLUE = 'b';
-    private static final char RED = 'r';
+    public static final char BLUE = 'b';
+    public static final char RED = 'r';
 
-    private final List<List<Character>> TABLE;
+    public final List<List<Character>> TABLE;
     private final int HEIGHT;
     private final int WIDTH;
     private static GameMode GAMEMODE;
 
-    private boolean itsRedTurn;
+    public boolean itsRedTurn;
 
     public Conecta4(int rows, int cols, GameMode gamemode) {
         if (rows < 4 || cols < 4) throw new RuntimeException("Board size must be at least 4x4");
@@ -55,35 +55,17 @@ public class Conecta4 {
                 .noneMatch(cell -> cell == notMarked);
     }
 
-    public void playBlueAt(int column) {
-        if(!itsRedTurn) {
-            if (!finished()) {
-                int row = checkRowForColumn(column);
-                this.TABLE.get(row).set(column, BLUE);
-                itsRedTurn = true;
-            } else {
-                throw new RuntimeException("game finished");
-            }
-        }else {
-            throw new RuntimeException("It's not turn");
+    public void playAt(int column, Player player) {
+
+        if(!finished()) {
+            player.playAt(column, this);
+        } else {
+            throw new RuntimeException("Game finished");
         }
+
     }
 
-    public void playRedAt(int column) {
-        if(itsRedTurn) {
-            if (!finished()) {
-                int row = checkRowForColumn(column);
-                this.TABLE.get(row).set(column, RED);
-                itsRedTurn = false;
-            } else {
-                throw new RuntimeException("game finished");
-            }
-        }else {
-            throw new RuntimeException("It's not turn");
-        }
-    }
-
-    private int checkRowForColumn(int column) {
+    public int checkRowForColumn(int column) {
         int row = IntStream.range(0, this.HEIGHT)
                 .filter(i -> this.TABLE.get(i).get(column) == notMarked)
                 .reduce((first, second) -> second)
