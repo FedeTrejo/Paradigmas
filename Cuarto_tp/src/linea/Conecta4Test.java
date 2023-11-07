@@ -37,12 +37,10 @@ public class Conecta4Test {
     @Test public void testPuttingAPieceInAnInvalidColumnShouldFail(){
         assertThrows(RuntimeException.class, () -> new Conecta4(4, 4, new GameModeC()).playAt(6, new RedPlayer()));
 }
-
 //    @Test public void testBluePlayngInRedTurnShouldFail(){
 //        Conecta4 game = new Conecta4(4, 4, new GameModeC());
 //        assertThrows(RuntimeException.class, () -> game.playAt(1, new BluePlayer()));
 //    }
-
     @Test public void testGameFinishesWhenFourInAHorizontalRowAndGamemodeIsA(){
         Conecta4 game = new Conecta4(4, 4, new GameModeA());
         game.playAt(0, new RedPlayer());
@@ -57,6 +55,157 @@ public class Conecta4Test {
         assertTrue(game.finished());
         assertTrue(game.redWon());
     }
+
+    @Test public void testGameFinishesWhenFourInAVerticalRowAndGamemodeIsA(){
+        Conecta4 game = new Conecta4(4, 4, new GameModeA());
+        game.playAt(0, new RedPlayer());
+        game.playAt(1, new BluePlayer());
+        game.playAt(0, new RedPlayer());
+        game.playAt(1, new BluePlayer());
+        game.playAt(0, new RedPlayer());
+        game.playAt(1, new BluePlayer());
+        game.playAt(0, new RedPlayer());
+
+        System.out.println( game.showBoard() );
+        assertTrue(game.finished());
+        assertTrue(game.redWon());
+    }
+
+    @Test public void testGameDoesNotFinishWhenFourInADiagonalRowAndGamemodeIsA(){
+        Conecta4 game = new Conecta4(4, 4, new GameModeA());
+        game.playAt(0, new RedPlayer());
+        game.playAt(1, new BluePlayer());
+        game.playAt(1, new RedPlayer());
+        game.playAt(2, new BluePlayer());
+        game.playAt(2, new RedPlayer());
+        game.playAt(3, new BluePlayer());
+        game.playAt(2, new RedPlayer());
+        game.playAt(3, new BluePlayer());
+        game.playAt(0, new RedPlayer());
+        game.playAt(3, new BluePlayer());
+        game.playAt(3, new RedPlayer());
+
+        System.out.println( game.showBoard() );
+        assertFalse(game.finished());
+        assertFalse(game.redWon());
+    }
+
+    @Test
+    public void testGameFinishesWhenFourInADiagonalRowAndGamemodeIsB(){
+        Conecta4 game = new Conecta4(4, 4, new GameModeB());
+
+        game.playAt(0, new RedPlayer());
+        game.playAt(1, new BluePlayer());
+        game.playAt(1, new RedPlayer());
+        game.playAt(2, new BluePlayer());
+        game.playAt(2, new RedPlayer());
+        game.playAt(3, new BluePlayer());
+        game.playAt(2, new RedPlayer());
+        game.playAt(3, new BluePlayer());
+        game.playAt(0, new RedPlayer());
+        game.playAt(3, new BluePlayer());
+        game.playAt(3, new RedPlayer());
+
+        System.out.println(game.showBoard());
+
+        assertTrue(game.finished());
+        assertTrue(game.redWon());
+    }
+
+    @Test
+    public void testGameDoesNotFinishWhenFourInAHorizontalRowAndGamemodeIsB(){
+        Conecta4 game = new Conecta4(4, 4, new GameModeB());
+
+        game.playAt(0, new RedPlayer());
+        game.playAt(0, new BluePlayer());
+        game.playAt(1, new RedPlayer());
+        game.playAt(1, new BluePlayer());
+        game.playAt(2, new RedPlayer());
+        game.playAt(2, new BluePlayer());
+        game.playAt(3, new RedPlayer());
+
+        System.out.println(game.showBoard());
+
+        assertFalse(game.finished());
+        assertFalse(game.redWon());
+    }
+
+    @Test
+    public void testGameDoesNotFinishWhenFourInAVerticalRowAndGamemodeIsB(){
+        Conecta4 game = new Conecta4(4, 4, new GameModeB());
+        game.playAt(0, new RedPlayer());
+        game.playAt(1, new BluePlayer());
+        game.playAt(0, new RedPlayer());
+        game.playAt(1, new BluePlayer());
+        game.playAt(0, new RedPlayer());
+        game.playAt(1, new BluePlayer());
+        game.playAt(0, new RedPlayer());
+
+        System.out.println(game.showBoard());
+        assertFalse(game.finished());
+        assertFalse(game.redWon());
+    }
+
+    @Test
+    public void testGameFinishesAtTieIfNobodyWinsAndTheBoardIsFull() {
+        Conecta4 game = new Conecta4(4, 4, new GameModeC());
+        game.playAt(0, new RedPlayer());
+        game.playAt(1, new BluePlayer());
+        game.playAt(0, new RedPlayer());
+        game.playAt(1, new BluePlayer());
+        game.playAt(1, new RedPlayer());
+        game.playAt(0, new BluePlayer());
+        game.playAt(1, new RedPlayer());
+        game.playAt(0, new BluePlayer());
+        game.playAt(2, new RedPlayer());
+        game.playAt(3, new BluePlayer());
+        game.playAt(2, new RedPlayer());
+        game.playAt(3, new BluePlayer());
+        game.playAt(3, new RedPlayer());
+        game.playAt(2, new BluePlayer());
+        game.playAt(3, new RedPlayer());
+        game.playAt(2, new BluePlayer());
+
+        System.out.println(game.showBoard());
+        assertTrue(game.finished());
+        assertTrue(game.boardIsFull());
+        assertFalse(game.redWon());
+    }
+
+    @Test
+    public void testPuttingAPieceInAFullColumnShouldFail(){
+        Conecta4 game = new Conecta4(4, 4, new GameModeC());
+        game.playAt(0, new RedPlayer());
+        game.playAt(0, new BluePlayer());
+        game.playAt(0, new RedPlayer());
+        game.playAt(0, new BluePlayer());
+
+        System.out.println(game.showBoard());
+        assertThrows(RuntimeException.class, () -> game.playAt(0, new RedPlayer()));
+        assertFalse(game.finished());
+    }
+
+    @Test
+    public void testOnceTheGameIsFinishedPlayingAgainShouldFail(){
+        Conecta4 game = new Conecta4(4, 4, new GameModeC());
+        game.playAt(0, new RedPlayer());
+        game.playAt(1, new BluePlayer());
+        game.playAt(1, new RedPlayer());
+        game.playAt(2, new BluePlayer());
+        game.playAt(2, new RedPlayer());
+        game.playAt(3, new BluePlayer());
+        game.playAt(2, new RedPlayer());
+        game.playAt(3, new BluePlayer());
+        game.playAt(0, new RedPlayer());
+        game.playAt(3, new BluePlayer());
+        game.playAt(3, new RedPlayer());
+
+        System.out.println(game.showBoard());
+        assertTrue(game.finished());
+        assertTrue(game.redWon());
+        assertThrows(RuntimeException.class, () -> game.playAt(0, new BluePlayer()));
+    }
+
     
 
 }
