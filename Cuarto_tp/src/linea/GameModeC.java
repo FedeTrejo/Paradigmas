@@ -1,7 +1,14 @@
 package linea;
 
-public class GameModeC extends GameMode{
-    public boolean fourInARow(Conecta4 game){
-        return game.fourInAHorizontalRow() || game.fourInAVerticalRow() || game.fourInADiagonalRow();
+public class GameModeC extends GameMode {
+
+    public GameModeC(){
+        this.gameModeName = 'C';
     }
+
+    boolean validateWinCondition(Conecta4 table, int column) {
+        return  table.isDiagonalMatch(column) || table.isHorizontalMatch(column) || table.isVerticalMatch(column);
+
+    }
+
 }
