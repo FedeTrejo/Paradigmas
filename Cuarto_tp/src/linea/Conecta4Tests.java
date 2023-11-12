@@ -1,209 +1,124 @@
 package linea;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class Conecta4Tests {
+    private Conecta4 game;
+    @BeforeEach
+    public void setUp() {
+        game = new Conecta4(4, 4, 'C');
+    }
+    @AfterEach
+    public void showBoard() {
+        System.out.println(game.showBoard());
+    }
     @Test
     public void testCannotInitializeBoardSmallerThan4x4() {
-        assertThrows(RuntimeException.class, () -> new Conecta4(3, 3, 'A'));
-    }
-
-    @Test
-    public void testGameIsShownCorrectly() {
-        Conecta4 game = new Conecta4(4, 4, 'C');
-        game.playRedAt(1);
-
-        game.playBlueAt(2);
-        String expectedBoard =
-                """
-                        +----+
-                        /    /
-                        /    /
-                        /    /
-                        /rb  /
-                        +----+
-                        Game Status: Red player's turn""";
-        assertEquals(expectedBoard, game.showBoard());
+        assertThrowsLike(() -> new Conecta4(3, 3, 'C'), Conecta4.MinBoardSize);
     }
 
     @Test public void testRedStartsTheGame(){
-        Conecta4 game = new Conecta4(4, 4, 'C');
-        assertThrows(RuntimeException.class,() -> game.playBlueAt(2));
+        assertThrowsLike(() -> game.playBlueAt(1), RedsPlay.notBlueTurn);
     }
 
     @Test public void testOnceRedPlaysIfRedPlaysAgainShouldFail(){
-        Conecta4 game = new Conecta4(4, 4, 'C');
         game.playRedAt(1);
-        assertThrows(RuntimeException.class, () -> game.playRedAt(1));
+        assertThrowsLike(() -> game.playRedAt(1), BluesPlay.notRedTurn);
     }
 
     @Test public void testPuttingAPieceInAnInvalidColumnShouldFail(){
-        assertThrows(RuntimeException.class, () -> new Conecta4(4, 4, 'C').playRedAt(6));
+        assertThrowsLike(() -> game.playRedAt(5), Conecta4.outOfBounds);
     }
 
-        @Test public void testBluePlayngInRedTurnShouldFail(){
-        Conecta4 game = new Conecta4(4, 4, 'C');
-        assertThrows(RuntimeException.class, () -> game.playBlueAt(3));
+    @Test public void testBluePlayngInRedTurnShouldFail(){
+        assertThrowsLike(() -> game.playBlueAt(1), RedsPlay.notBlueTurn);
     }
 
     @Test public void testGameFinishesWhenFourInAHorizontalRowAndGamemodeIsA(){
-        Conecta4 game = new Conecta4(4, 4, 'A');
-        game.playRedAt(1);
-        game.playBlueAt(1);
-        game.playRedAt(2);
-        game.playBlueAt(2);
-        game.playRedAt(3);
-        game.playBlueAt(3);
-        game.playRedAt(4);
-
-        System.out.println( game.showBoard() );
+        game = Conecta4A();
+        playAlternatively(game, new int[]{1, 1,2,2,3,3,4});
         assertTrue(game.finished());
     }
-    @Test public void testGameFinishesWhenFourInAVerticalRowAndGamemodeIsA(){
-        Conecta4 game = new Conecta4(4, 4, 'A');
-        game.playRedAt(1);
-        game.playBlueAt(2);
-        game.playRedAt(1);
-        game.playBlueAt(2);
-        game.playRedAt(1);
-        game.playBlueAt(2);
-        game.playRedAt(1);
 
-        System.out.println( game.showBoard() );
+    @Test public void testGameFinishesWhenFourInAVerticalRowAndGamemodeIsA(){
+        game = Conecta4A();
+        playAlternatively(game, new int[]{1,2,1,2,1,2,1});
         assertTrue(game.finished());
     }
 
     @Test
     public void testGameDoesNotFinishWhenFourInADiagonalRowAndGamemodeIsA(){
-        Conecta4 game = new Conecta4(4, 4, 'A');
-        game.playRedAt(1);
-        game.playBlueAt(2);
-        game.playRedAt(2);
-        game.playBlueAt(3);
-        game.playRedAt(3);
-        game.playBlueAt(4);
-        game.playRedAt(3);
-        game.playBlueAt(4);
-        game.playRedAt(1);
-        game.playBlueAt(4);
-        game.playRedAt(4);
-
-        System.out.println( game.showBoard() );
+        game = Conecta4A();
+        playAlternatively(game, new int[]{1,2,2,3,3,4,3,4,1,4,4});
         assertFalse(game.finished());
     }
 
     @Test
     public void testGameFinishesWhenFourInADiagonalRowAndGamemodeIsB(){
-        Conecta4 game = new Conecta4(4, 4, 'B');
-
-        game.playRedAt(1);
-        game.playBlueAt(2);
-        game.playRedAt(2);
-        game.playBlueAt(3);
-        game.playRedAt(3);
-        game.playBlueAt(4);
-        game.playRedAt(3);
-        game.playBlueAt(4);
-        game.playRedAt(1);
-        game.playBlueAt(4);
-        game.playRedAt(4);
-
-        System.out.println(game.showBoard());
-
+        game = Conecta4B();
+        playAlternatively(game, new int[]{1,2,2,3,3,4,3,4,1,4,4});
         assertTrue(game.finished());
     }
 
     @Test
     public void testGameDoesNotFinishWhenFourInAHorizontalRowAndGamemodeIsB(){
-        Conecta4 game = new Conecta4(4, 4, 'B');
-
-        game.playRedAt(1);
-        game.playBlueAt(1);
-        game.playRedAt(2);
-        game.playBlueAt(2);
-        game.playRedAt(3);
-        game.playBlueAt(3);
-        game.playRedAt(4);
-
-        System.out.println(game.showBoard());
-
+        game = Conecta4B();
+        playAlternatively(game, new int[]{1, 1,2,2,3,3,4});
         assertFalse(game.finished());
     }
 
     @Test
     public void testGameDoesNotFinishWhenFourInAVerticalRowAndGamemodeIsB(){
-        Conecta4 game = new Conecta4(4, 4, 'B');
-        game.playRedAt(1);
-        game.playBlueAt(2);
-        game.playRedAt(1);
-        game.playBlueAt(2);
-        game.playRedAt(1);
-        game.playBlueAt(2);
-        game.playRedAt(1);
-
-        System.out.println(game.showBoard());
+        game = Conecta4B();
+        playAlternatively(game, new int[]{1,2,1,2,1,2,1});
         assertFalse(game.finished());
     }
 
     @Test
     public void testGameFinishesAtTieIfNobodyWinsAndTheBoardIsFull() {
-        Conecta4 game = new Conecta4(4, 4, 'C');
-        game.playRedAt(1);
-        game.playBlueAt(2);
-        game.playRedAt(1);
-        game.playBlueAt(2);
-        game.playRedAt(2);
-        game.playBlueAt(1);
-        game.playRedAt(2);
-        game.playBlueAt(1);
-        game.playRedAt(3);
-        game.playBlueAt(4);
-        game.playRedAt(3);
-        game.playBlueAt(4);
-        game.playRedAt(4);
-        game.playBlueAt(3);
-        game.playRedAt(4);
-        game.playBlueAt(3);
-
-        System.out.println(game.showBoard());
+        playAlternatively(game, new int[]{1,2,1,2,2,1,2,1,3,4,3,4,4,3,4,3});
         assertTrue(game.boardIsFull());
         assertTrue(game.finished());
-
     }
 
     @Test
     public void testPuttingAPieceInAFullColumnShouldFail(){
-        Conecta4 game = new Conecta4(4, 4, 'C');
-        game.playRedAt(1);
-        game.playBlueAt(1);
-        game.playRedAt(1);
-        game.playBlueAt(1);
-
-        System.out.println(game.showBoard());
-        assertThrows(RuntimeException.class, () -> game.playRedAt(1));
+        playAlternatively(game, new int[]{1,1,1,1});
+        assertThrowsLike(() -> game.playRedAt(1), Conecta4.columnFull);
         assertFalse(game.finished());
     }
 
     @Test
     public void testOnceTheGameIsFinishedPlayingAgainShouldFail(){
-        Conecta4 game = new Conecta4(4, 4, 'C');
-        game.playRedAt(1);
-        game.playBlueAt(2);
-        game.playRedAt(2);
-        game.playBlueAt(3);
-        game.playRedAt(3);
-        game.playBlueAt(4);
-        game.playRedAt(3);
-        game.playBlueAt(4);
-        game.playRedAt(1);
-        game.playBlueAt(4);
-        game.playRedAt(4);
-
-        assertThrows(RuntimeException.class, () -> game.playRedAt(1));
+        playAlternatively(game, new int[]{1,2,2,3,3,4,3,4,1,4,4});
+        assertThrowsLike(() -> game.playRedAt(1), GameStatus.gameOverMessage + " " + "Red won!");
     }
-
-
+    private static Conecta4 Conecta4A() {
+        return new Conecta4(4, 4, 'A');
+    }
+    private static Conecta4 Conecta4B() {
+        return new Conecta4(4, 4, 'B');
+    }
+    public void playAlternatively(Conecta4 game, int[] moves) {
+        for (int i = 0; i < moves.length; i++) {
+            if (i % 2 == 0) {
+                game.playRedAt(moves[i]);
+            } else {
+                game.playBlueAt(moves[i]);
+            }
+        }
+    }
+    private void assertThrowsLike(Executable executable, String message ) {
+        assertEquals( message,
+                assertThrows( Exception.class, executable )
+                        .getMessage() );
+    }
 
 }

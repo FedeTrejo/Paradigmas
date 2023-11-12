@@ -11,6 +11,7 @@ public class Conecta4 {
     public static final String outOfBounds = "Out of bounds!";
 
     public static final String columnFull = "Illegal movement, column is full";
+    public static final String MinBoardSize = "Board size must be at least 4x4";
 
     private final GameMode gameMode;
 
@@ -22,7 +23,7 @@ public class Conecta4 {
     private final int WIDTH;
 
     public Conecta4(int rows, int cols, char gameMode) {
-        if (rows < 4 || cols < 4) throw new RuntimeException("Board size must be at least 4x4");
+        if (rows < 4 || cols < 4) throw new RuntimeException(MinBoardSize);
         this.HEIGHT = rows;
         this.WIDTH = cols;
         this.gameMode = GameMode.getGameModeByChar(gameMode);
